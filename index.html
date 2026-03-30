@@ -285,7 +285,7 @@ function renderHome(){
   document.getElementById('nd').style.display='none';document.getElementById('hd').style.display='';
   document.getElementById('totalCount').textContent=total;document.getElementById('catCount').textContent=cats.length;
   applyDirectionUI();
-  document.getElementById('catList').innerHTML=cats.map(cat=>'<div class="cat-tile" onclick=\'startGame('+JSON.stringify(JSON.stringify(cat))+')\'><div class="cat-tile-name">'+esc(cat)+'</div><div class="cat-tile-count">'+allData[cat].length+'</div></div>').join('');
+  document.getElementById('catList').innerHTML=cats.map(cat=>'<div class="cat-tile" onclick=\'startGame('+JSON.stringify(cat)+')\'><div class="cat-tile-name">'+esc(cat)+'</div><div class="cat-tile-count">'+allData[cat].length+'</div></div>').join('');
 }
 
 function setDirection(d){direction=d;storeDir(d);applyDirectionUI();}
@@ -387,6 +387,7 @@ async function processFile(file){
 }
 
 function startGame(cat){
+  try{cat=JSON.parse(cat);}catch(e){}
   activeCat=cat;const src=cat==='__ALL__'?Object.values(allData).flat():(allData[cat]||[]);
   deck=shuffle([...src]);current=0;correct=0;wrong=0;flipped=false;
   document.getElementById('gameCatName').textContent=cat==='__ALL__'?'All words':cat;
