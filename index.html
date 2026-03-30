@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Dutch Woorden</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f0f13">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- iOS specific -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dutch Woorden">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-startup-image" href="icon-512.png">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+:root{
+  --night:#0f0f13;
+  --dark:#16161d;
+  --card:#1e1e28;
+  --raised:#252532;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.15);
+  --text:#f0eeea;
+  --muted:#8a8899;
+  --dim:#5a5870;
+  --gold:#e8c87a;
+  --gold2:#c49a3c;
+  --teal:#5ec4b0;
+  --rose:#e07b7b;
+}
+
+body{font-family:'Outfit',sans-serif;background:var(--night);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ── NAV BAR ── */
+.nav{
+  width:100%;max-width:560px;
+  padding:1.6rem 1.5rem 0;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:-.01em;}
+.logo em{color:var(--gold);font-style:italic}
+.nav-tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:3px;}
+.nav-tab{padding:6px 16px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;}
+.nav-tab.active{background:var(--raised);color:var(--text);border:1px solid var(--border2);}
+
+/* ── SCREENS ── */
+.screen{display:none;width:100%;max-width:560px;padding:1.5rem 1.25rem 4rem;}
+.screen.active{display:block}
+
+/* ══ HOME SCREEN ══ */
+.word-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:999px;padding:4px 14px;
+  font-size:.77rem;color:var(--muted);margin-bottom:1.5rem;
+}
+.word-pill b{color:var(--gold);font-weight:600}
+
+.sec-label{font-size:.68rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;}
+
+.shuffle-tile{
+  width:100%;
+  background:linear-gradient(135deg,#1b2b3a,#182a22);
+  border:1px solid rgba(94,196,176,.22);
+  border-radius:18px;padding:1.2rem 1.4rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.5rem;transition:transform .2s,border-color .2s;
+}
+.shuffle-tile:hover{transform:translateY(-2px);border-color:rgba(94,196,176,.4)}
+.shuffle-tile:active{transform:scale(.98)}
+.shuffle-tile h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--teal);}
+.shuffle-tile p{font-size:.8rem;color:var(--muted);margin-top:3px}
+.shuffle-tile .arrow{font-size:1.3rem;color:var(--teal);opacity:.6}
+
+.cat-list{display:flex;flex-direction:column;gap:9px;}
+.cat-tile{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:.95rem 1.2rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  transition:transform .18s,border-color .18s,background .18s;
+}
+.cat-tile:hover{transform:translateY(-1px);border-color:var(--border2);background:var(--raised)}
+.cat-tile:active{transform:scale(.99)}
+.cat-tile-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;}
+.cat-tile-count{background:var(--raised);border:1px solid var(--border);border-radius:999px;padding:2px 11px;font-size:.73rem;color:var(--muted);}
+
+.no-data-msg{text-align:center;padding:3rem 1rem;}
+.no-data-msg h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;margin-bottom:.5rem;}
+.no-data-msg p{font-size:.85rem;color:var(--muted);line-height:1.6}
+.go-settings-btn{
+  margin-top:1.2rem;
+  display:inline-block;
+  background:var(--gold);color:#0f0f13;
+  border:none;border-radius:12px;
+  padding:.75rem 1.6rem;
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:opacity .2s;
+}
+.go-settings-btn:hover{opacity:.85}
+
+/* ══ GAME SCREEN ══ */
+.game-topbar{display:flex;align-items:center;gap:10px;margin-bottom:1.4rem;}
+.back-btn{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);border-radius:10px;
+  padding:7px 13px;font-size:.82rem;
+  cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all .2s;flex-shrink:0;
+}
+.back-btn:hover{color:var(--text);border-color:var(--border2)}
+.game-cat-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.dir-indicator{
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:8px 14px;
+  font-size:.78rem;color:var(--muted);
+  margin-bottom:1.25rem;
+  justify-content:center;
+}
+.dir-indicator b{color:var(--gold);font-weight:500}
+.dir-indicator .arrow-icon{color:var(--gold);font-size:1rem}
+
+.prog-row{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.5rem;}
+.prog-track{height:3px;background:var(--card);border-radius:2px;margin-bottom:1.4rem;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;}
+
+/* CARD */
+.card-scene{perspective:1200px;height:260px;margin-bottom:1.2rem;cursor:pointer;}
+.card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.card-inner.flipped{transform:rotateY(180deg)}
+.card-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+}
+.card-front{background:var(--card);border:1px solid var(--border2);}
+.card-back{background:var(--raised);border:1px solid rgba(232,200,122,.28);transform:rotateY(180deg);}
+.card-lang{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.9rem;}
+.card-back .card-lang{color:var(--gold2)}
+.card-word{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:400;line-height:1.2;letter-spacing:-.01em;}
+.card-back .card-word{color:var(--gold)}
+.tap-hint{margin-top:1rem;font-size:.73rem;color:var(--dim);opacity:0;transition:opacity .4s;}
+.tap-hint.show{opacity:1}
+
+.ans-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;opacity:.28;pointer-events:none;transition:opacity .25s;}
+.ans-row.live{opacity:1;pointer-events:auto}
+.ans-btn{padding:.82rem;border-radius:14px;border:1.5px solid;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:transform .12s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.ans-btn:active{transform:scale(.97)}
+.btn-wrong{background:rgba(224,123,123,.09);border-color:rgba(224,123,123,.32);color:var(--rose)}
+.btn-right{background:rgba(94,196,176,.09);border-color:rgba(94,196,176,.32);color:var(--teal)}
+.skip-btn{width:100%;padding:.6rem;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s;}
+.skip-btn:hover{border-color:var(--border2);color:var(--muted)}
+
+/* ══ SCORE SCREEN ══ */
+#score-screen{text-align:center;}
+.score-emoji{font-size:3rem;margin-bottom:.9rem}
+.score-pct{font-family:'Playfair Display',serif;font-size:5rem;font-weight:400;line-height:1;margin-bottom:.2rem;}
+.great{color:var(--teal)}.ok{color:var(--gold)}.low{color:var(--rose)}
+.score-sub{font-size:.88rem;color:var(--muted);margin-bottom:.4rem;}
+.score-detail{font-size:.8rem;color:var(--dim);margin-bottom:2.5rem;}
+.score-btns{display:flex;flex-direction:column;gap:9px;max-width:260px;margin:0 auto}
+.primary-btn{padding:.88rem;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.primary-btn:hover{opacity:.85}
+.secondary-btn{padding:.82rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:12px;font-family:'Outfit',sans-serif;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.secondary-btn:hover{border-color:var(--border2);color:var(--text)}
+
+/* ══ SETTINGS SCREEN ══ */
+#settings-screen{padding-bottom:4rem;}
+
+.settings-section{margin-bottom:2rem;}
+.settings-section-title{
+  font-size:.68rem;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--dim);
+  margin-bottom:.75rem;
+}
+
+/* direction setting */
+.setting-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+}
+.setting-row{
+  padding:1rem 1.2rem;
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:1rem;
+  border-bottom:1px solid var(--border);
+}
+.setting-row:last-child{border-bottom:none}
+.setting-label{font-size:.9rem;font-weight:500;margin-bottom:2px;}
+.setting-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+.radio-group{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+.radio-opt{
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;font-size:.83rem;color:var(--muted);
+  padding:6px 10px;border-radius:9px;border:1px solid var(--border);
+  background:var(--raised);transition:all .18s;white-space:nowrap;
+}
+.radio-opt.selected{border-color:rgba(232,200,122,.5);color:var(--gold);background:rgba(232,200,122,.07);}
+.radio-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:1.5px solid var(--dim);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;
+}
+.radio-opt.selected .radio-dot{border-color:var(--gold);}
+.radio-dot-fill{width:7px;height:7px;border-radius:50%;background:var(--gold);display:none;}
+.radio-opt.selected .radio-dot-fill{display:block;}
+
+/* file upload area */
+.upload-area{
+  background:var(--card);border:2px dashed rgba(232,200,122,.28);
+  border-radius:16px;padding:2rem 1.5rem;text-align:center;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.upload-area:hover{background:rgba(232,200,122,.05);border-color:rgba(232,200,122,.5);}
+.upload-area input{display:none}
+.upload-icon-wrap{width:48px;height:48px;background:rgba(232,200,122,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.3rem;}
+.upload-area h3{font-size:.95rem;font-weight:500;color:var(--gold);margin-bottom:.3rem;}
+.upload-area p{font-size:.78rem;color:var(--muted);}
+
+.file-loaded{
+  background:var(--card);border:1px solid rgba(94,196,176,.2);
+  border-radius:16px;padding:1rem 1.2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-bottom:10px;
+}
+.file-loaded-info{display:flex;align-items:center;gap:10px;}
+.file-icon{font-size:1.3rem;}
+.file-name{font-size:.88rem;font-weight:500;color:var(--teal);}
+.file-meta{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.replace-btn{
+  background:transparent;border:1px solid var(--border);
+  border-radius:9px;color:var(--muted);
+  padding:5px 12px;font-size:.75rem;
+  font-family:'Outfit',sans-serif;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+  flex-shrink:0;
+}
+.replace-btn:hover{border-color:var(--border2);color:var(--text)}
+
+/* format guide */
+.format-guide{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1rem 1.2rem;
+  font-size:.8rem;color:var(--muted);line-height:1.7;
+  margin-top:10px;
+}
+.format-guide strong{color:var(--text);}
+.fmt-table{width:100%;margin-top:.6rem;border-collapse:collapse;}
+.fmt-table td{padding:4px 8px;border:1px solid var(--border);font-size:.77rem;}
+.cell-cat{background:rgba(232,200,122,.08);color:var(--gold);font-weight:500;text-align:center;font-style:italic;}
+.cell-en{background:rgba(255,255,255,.04);color:var(--text);}
+.cell-nl{background:rgba(94,196,176,.07);color:var(--teal);}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border2);color:var(--text);padding:.6rem 1.3rem;border-radius:10px;font-size:.82rem;transition:transform .3s ease;pointer-events:none;white-space:nowrap;z-index:999;}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav" id="mainNav">
+  <div class="logo">Dutch <em>Woorden</em></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-home" onclick="navTo('home')">Practice</button>
+    <button class="nav-tab" id="tab-settings" onclick="navTo('settings')">Settings</button>
+  </div>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div class="screen active" id="home-screen">
+  <!-- no data -->
+  <div id="nd">
+    <div class="no-data-msg">
+      <h3>No words yet</h3>
+      <p>Go to Settings to upload your Excel file and configure how you want to be tested.</p>
+      <button class="go-settings-btn" onclick="navTo('settings')">Go to Settings →</button>
+    </div>
+  </div>
+  <!-- has data -->
+  <div id="hd" style="display:none">
+    <div class="word-pill"><b id="totalCount">0</b>&nbsp;words · <b id="catCount">0</b>&nbsp;categories</div>
+    <div class="sec-label">Practice all</div>
+    <div class="shuffle-tile" onclick="startGame('__ALL__')">
+      <div>
+        <h3>Shuffle all words</h3>
+        <p id="shuffleDesc">English → Dutch</p>
+      </div>
+      <div class="arrow">⇄</div>
+    </div>
+    <div class="sec-label">Pick a category</div>
+    <div class="cat-list" id="catList"></div>
+  </div>
+</div>
+
+<!-- ══════════ GAME ══════════ -->
+<div class="screen" id="game-screen">
+  <div class="game-topbar">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="game-cat-name" id="gameCatName">All words</div>
+  </div>
+
+  <div class="dir-indicator" id="dirIndicator">
+    <b id="dirFrom">English</b>
+    <span class="arrow-icon">→</span>
+    <b id="dirTo">Dutch</b>
+    <span style="font-size:.7rem;margin-left:4px;color:var(--dim)">(from Settings)</span>
+  </div>
+
+  <div class="prog-row">
+    <span id="cardNum">1 / 1</span>
+    <span id="scoreDisp" style="color:var(--gold)">✓ 0 &nbsp; ✗ 0</span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+  <div class="card-scene" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front">
+        <div class="card-lang" id="frontLang">ENGLISH</div>
+        <div class="card-word" id="frontWord">—</div>
+        <div class="tap-hint" id="tapHint">tap to reveal</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-lang" id="backLang">DUTCH</div>
+        <div class="card-word" id="backWord">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ans-row" id="ansRow">
+    <button class="ans-btn btn-wrong" onclick="answer(false)">✗ &nbsp; Didn't know</button>
+    <button class="ans-btn btn-right" onclick="answer(true)">✓ &nbsp; Got it!</button>
+  </div>
+  <button class="skip-btn" onclick="answer(null)">Skip →</button>
+</div>
+
+<!-- ══════════ SCORE ══════════ -->
+<div class="screen" id="score-screen">
+  <div class="score-emoji" id="scoreEmoji">🎉</div>
+  <div class="score-pct great" id="scorePct">0%</div>
+  <div class="score-sub">of cards correct</div>
+  <div class="score-detail" id="scoreDetail"></div>
+  <div class="score-btns">
+    <button class="primary-btn" onclick="restart()">Practice again</button>
+    <button class="secondary-btn" onclick="goHome()">Choose another category</button>
+  </div>
+</div>
+
+<!-- ══════════ SETTINGS ══════════ -->
+<div class="screen" id="settings-screen">
+
+  <!-- DIRECTION -->
+  <div class="settings-section">
+    <div class="settings-section-title">Quiz direction</div>
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Which side to show first?</div>
+          <div class="setting-desc">Choose what's shown on the front of each card. You flip to reveal the answer.</div>
+        </div>
+        <div class="radio-group">
+          <div class="radio-opt selected" id="opt-en-nl" onclick="setDirection('en-nl')">
+            <div class="radio-dot"><div class="radio-dot-fill"></div></div>
+            EN → NL
+          </div>
+          <div class="radio-opt" id="opt-nl-en" onclick="setDirection('nl-en')">
+            <div class="radio-dot"><div class="radio-dot-fill"></div></div>
+            NL → EN
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILE -->
+  <div class="settings-section">
+    <div class="settings-section-title">Excel file</div>
+
+    <!-- shown when no file loaded -->
+    <div id="uploadBlock">
+      <div class="upload-area" id="dropZone" onclick="document.getElementById('fileIn').click()">
+        <input type="file" id="fileIn" accept=".xlsx,.xls" onchange="handleFile(event)">
+        <div class="upload-icon-wrap">📂</div>
+        <h3>Upload your .xlsx file</h3>
+        <p>Tap to choose, or drag & drop</p>
+      </div>
+    </div>
+
+    <!-- shown when file is loaded -->
+    <div id="fileLoadedBlock" style="display:none">
+      <div class="file-loaded">
+        <div class="file-loaded-info">
+          <div class="file-icon">📗</div>
+          <div>
+            <div class="file-name" id="fileName">—</div>
+            <div class="file-meta" id="fileMeta">—</div>
+          </div>
+        </div>
+        <button class="replace-btn" onclick="document.getElementById('fileIn2').click()">Replace</button>
+        <input type="file" id="fileIn2" accept=".xlsx,.xls" style="display:none" onchange="handleFile(event)">
+      </div>
+    </div>
+
+    <div class="format-guide">
+      <strong>Expected Excel format:</strong>
+      <table class="fmt-table">
+        <tr><td class="cell-cat" colspan="2">Greetings &nbsp;← category title (merged across both columns)</td></tr>
+        <tr><td class="cell-en">hello</td><td class="cell-nl">hallo</td></tr>
+        <tr><td class="cell-en">goodbye</td><td class="cell-nl">tot ziens</td></tr>
+        <tr><td class="cell-cat" colspan="2">Food</td></tr>
+        <tr><td class="cell-en">to eat</td><td class="cell-nl">eten</td></tr>
+        <tr><td class="cell-en">water</td><td class="cell-nl">water</td></tr>
+      </table>
+      <div style="margin-top:.6rem;font-size:.74rem">Column A = English &nbsp;·&nbsp; Column B = Dutch &nbsp;·&nbsp; Category title spans both columns (merged cells)</div>
+    </div>
+  </div>
+
+</div><!-- /settings-screen -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════ STATE ════
+let allData = {};          // { cat: [{en,nl}] }
+let deck = [], current = 0, correct = 0, wrong = 0;
+let flipped = false;
+let direction = 'en-nl';  // 'en-nl' | 'nl-en'
+let activeCat = '';
+let loadedFileName = '';
+
+// ════ BOOT ════
+function boot(){
+  // restore settings
+  const saved = localStorage.getItem('dw_settings');
+  if(saved){ const s=JSON.parse(saved); direction=s.direction||'en-nl'; loadedFileName=s.fileName||''; }
+  // restore words
+  const raw = localStorage.getItem('dw_words');
+  if(raw) allData = JSON.parse(raw);
+  applyDirectionUI();
+  renderHome();
+  renderFileBlock();
+}
+
+function saveSettings(){ localStorage.setItem('dw_settings', JSON.stringify({direction, fileName:loadedFileName})); }
+function saveWords(){ localStorage.setItem('dw_words', JSON.stringify(allData)); }
+
+// ════ NAV ════
+let currentNav = 'home';
+
+function navTo(tab){
+  currentNav = tab;
+  ['home','game','score','settings'].forEach(s=>{
+    document.getElementById(s+'-screen').classList.toggle('active', s===tab);
+  });
+  document.getElementById('mainNav').style.display = tab==='game'||tab==='score' ? 'none' : '';
+  ['home','settings'].forEach(t=>{
+    const el = document.getElementById('tab-'+t);
+    if(el) el.classList.toggle('active', t===tab);
+  });
+}
+
+// ════ DIRECTION SETTING ════
+function setDirection(d){
+  direction = d;
+  applyDirectionUI();
+  saveSettings();
+}
+
+function applyDirectionUI(){
+  ['en-nl','nl-en'].forEach(d=>{
+    document.getElementById('opt-'+d).classList.toggle('selected', direction===d);
+  });
+  // update shuffle description on home
+  const label = direction==='en-nl' ? 'English shown → guess Dutch' : 'Dutch shown → guess English';
+  const el = document.getElementById('shuffleDesc');
+  if(el) el.textContent = label;
+  // update game direction indicator
+  document.getElementById('dirFrom').textContent = direction==='en-nl' ? 'English' : 'Dutch';
+  document.getElementById('dirTo').textContent   = direction==='en-nl' ? 'Dutch'   : 'English';
+}
+
+// ════ EXCEL PARSING ════
+function handleFile(e){ processFile(e.target.files[0]); }
+
+function processFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try{
+      const wb = XLSX.read(new Uint8Array(ev.target.result), {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+
+      // find merged rows (category titles)
+      const merges = ws['!merges'] || [];
+      const mergedRows = new Set();
+      merges.forEach(m => { if(m.s.c===0 && m.e.c>=1) mergedRows.add(m.s.r); });
+
+      const parsed = {};
+      let curCat = null;
+
+      rows.forEach((row, ri) => {
+        const a = (row[0]||'').toString().trim();
+        const b = (row[1]||'').toString().trim();
+        if(!a && !b) return;
+
+        // category row = merged, OR b is empty and a has text
+        if(mergedRows.has(ri) || (!b && a)){
+          curCat = a;
+          if(!parsed[curCat]) parsed[curCat] = [];
+        } else if(a && b){
+          if(!curCat){ curCat='General'; parsed[curCat]=[]; }
+          parsed[curCat].push({en:a, nl:b});
+        }
+      });
+
+      const total = Object.values(parsed).reduce((s,v)=>s+v.length, 0);
+      if(total===0){ showToast('No words found — check your file format'); return; }
+
+      allData = parsed;
+      loadedFileName = file.name;
+      saveWords();
+      saveSettings();
+      renderHome();
+      renderFileBlock();
+      showToast('✓ Saved '+total+' words in '+Object.keys(parsed).length+' categories');
+    }catch(err){
+      showToast('Could not read file — is it a valid .xlsx?');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ════ HOME ════
+function renderHome(){
+  const cats = Object.keys(allData);
+  const total = cats.reduce((s,c)=>s+allData[c].length, 0);
+
+  if(cats.length===0){
+    document.getElementById('nd').style.display = '';
+    document.getElementById('hd').style.display = 'none';
+    return;
+  }
+  document.getElementById('nd').style.display = 'none';
+  document.getElementById('hd').style.display = '';
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('catCount').textContent = cats.length;
+  applyDirectionUI(); // refresh shuffle description
+
+  document.getElementById('catList').innerHTML = cats.map(cat => `
+    <div class="cat-tile" onclick='startGame(${JSON.stringify(cat)})'>
+      <div class="cat-tile-name">${esc(cat)}</div>
+      <div class="cat-tile-count">${allData[cat].length}</div>
+    </div>`).join('');
+}
+
+function renderFileBlock(){
+  const hasFile = !!loadedFileName;
+  document.getElementById('uploadBlock').style.display = hasFile ? 'none' : '';
+  document.getElementById('fileLoadedBlock').style.display = hasFile ? '' : 'none';
+  if(hasFile){
+    document.getElementById('fileName').textContent = loadedFileName;
+    const cats = Object.keys(allData);
+    const total = cats.reduce((s,c)=>s+allData[c].length,0);
+    document.getElementById('fileMeta').textContent = total+' words · '+cats.length+' categories';
+  }
+}
+
+// ════ GAME ════
+function startGame(cat){
+  activeCat = cat;
+  const src = cat==='__ALL__' ? Object.values(allData).flat() : (allData[cat]||[]);
+  deck = shuffle([...src]);
+  current = 0; correct = 0; wrong = 0; flipped = false;
+  document.getElementById('gameCatName').textContent = cat==='__ALL__' ? 'All words' : cat;
+  navTo('game');
+  showCard();
+}
+
+function showCard(){
+  if(current >= deck.length){ endGame(); return; }
+
+  flipped = false;
+  document.getElementById('cardInner').classList.remove('flipped');
+  document.getElementById('ansRow').classList.remove('live');
+
+  const w = deck[current];
+  const enFirst = direction === 'en-nl';
+  document.getElementById('frontLang').textContent = enFirst ? 'ENGLISH' : 'DUTCH';
+  document.getElementById('frontWord').textContent = enFirst ? w.en : w.nl;
+  document.getElementById('backLang').textContent  = enFirst ? 'DUTCH'   : 'ENGLISH';
+  document.getElementById('backWord').textContent  = enFirst ? w.nl : w.en;
+
+  const tot = deck.length;
+  document.getElementById('cardNum').textContent = (current+1)+' / '+tot;
+  document.getElementById('progFill').style.width = ((current/tot)*100)+'%';
+  document.getElementById('scoreDisp').innerHTML = '✓ '+correct+' &nbsp; ✗ '+wrong;
+
+  const h = document.getElementById('tapHint');
+  h.classList.remove('show');
+  setTimeout(()=>h.classList.add('show'), 700);
+}
+
+function flipCard(){
+  if(flipped) return;
+  flipped = true;
+  document.getElementById('tapHint').classList.remove('show');
+  document.getElementById('cardInner').classList.add('flipped');
+  document.getElementById('ansRow').classList.add('live');
+}
+
+function answer(ok){
+  if(!flipped){ flipCard(); return; }
+  if(ok===true) correct++;
+  else if(ok===false) wrong++;
+  current++;
+  showCard();
+}
+
+function endGame(){
+  const tot = correct+wrong;
+  const pct = tot>0 ? Math.round((correct/tot)*100) : 0;
+  const el = document.getElementById('scorePct');
+  el.textContent = pct+'%';
+  el.className = 'score-pct '+(pct>=80?'great':pct>=50?'ok':'low');
+  document.getElementById('scoreEmoji').textContent = pct>=80?'🎉':pct>=50?'💪':'📚';
+  document.getElementById('scoreDetail').textContent =
+    correct+' correct · '+wrong+' wrong · '+(deck.length-tot)+' skipped';
+  navTo('score');
+}
+
+function restart(){ startGame(activeCat); }
+function goHome(){ navTo('home'); }
+
+// ════ UTILS ════
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function esc(s){ return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// drag-drop on settings upload
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='rgba(232,200,122,.6)';});
+dz.addEventListener('dragleave',()=>{dz.style.borderColor='';});
+dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';const f=e.dataTransfer.files[0];if(f)processFile(f);});
+
+// keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('game-screen').classList.contains('active')) return;
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flipCard();}
+  if(flipped){
+    if(e.key==='ArrowRight'||e.key==='1') answer(true);
+    if(e.key==='ArrowLeft'||e.key==='2') answer(false);
+    if(e.key==='ArrowDown') answer(null);
+  }
+});
+
+boot();
+
+// Register service worker for offline/PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
