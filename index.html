@@ -112,6 +112,13 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 .fmt-table td{padding:4px 8px;border:1px solid var(--border);font-size:.77rem;}
 .cell-cat{background:rgba(232,200,122,.08);color:var(--gold);font-weight:500;text-align:center;font-style:italic;}
 .cell-en{color:var(--text);}.cell-nl{color:var(--teal);}
+.conj-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;}
+.conj-pronoun{font-size:.9rem;font-weight:500;color:var(--muted);min-width:80px;flex-shrink:0;}
+.conj-input{flex:1;background:var(--raised);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--text);font-family:inherit;font-size:.95rem;outline:none;}
+.conj-input.correct{border-color:var(--teal);background:rgba(94,196,176,.08);}
+.conj-input.wrong{border-color:var(--rose);background:rgba(224,123,123,.08);}
+.conj-answer{font-size:.85rem;color:var(--teal);min-width:80px;text-align:right;display:none;}
+.conj-answer.show{display:block;}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border2);color:var(--text);padding:.6rem 1.3rem;border-radius:10px;font-size:.82rem;transition:transform .3s ease;pointer-events:none;white-space:nowrap;z-index:999;}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -122,6 +129,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
   <div class="logo">Dutch <em>Woorden</em></div>
   <div class="nav-tabs">
     <button class="nav-tab active" id="tab-home" onclick="navTo('home')">Practice</button>
+    <button class="nav-tab" id="tab-conjugate" onclick="navTo('conjugate')">Conjugate</button>
     <button class="nav-tab" id="tab-settings" onclick="navTo('settings')">Settings</button>
   </div>
 </div>
@@ -184,6 +192,37 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
   <div class="score-btns">
     <button class="primary-btn" onclick="restart()">Practice again</button>
     <button class="secondary-btn" onclick="goHome()">Choose another category</button>
+  </div>
+</div>
+
+
+<!-- CONJUGATE -->
+<div class="screen" id="conjugate-screen">
+  <div id="conj-empty" style="display:none">
+    <div class="no-data-msg">
+      <h3>No verbs yet</h3>
+      <p>Upload an Excel file with a second sheet containing your verb conjugations.</p>
+      <button class="go-settings-btn" onclick="navTo('settings')">Go to Settings →</button>
+    </div>
+  </div>
+  <div id="conj-main" style="display:none">
+    <!-- verb card -->
+    <div style="background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:2rem;text-align:center;margin-bottom:1.25rem;">
+      <div style="font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem;">VERB</div>
+      <div style="font-family:Georgia,serif;font-size:2.4rem;color:var(--text);" id="conjVerb">—</div>
+      <button id="hintBtn" onclick="showHint()" style="margin-top:.85rem;background:transparent;border:1px solid var(--border2);border-radius:999px;padding:5px 16px;font-size:.75rem;color:var(--muted);cursor:pointer;font-family:inherit;">💡 Show meaning</button>
+      <div id="conjHint" style="display:none;margin-top:.6rem;font-size:.85rem;color:var(--gold);"></div>
+    </div>
+
+    <!-- conjugation rows -->
+    <div id="conjRows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;"></div>
+
+    <!-- check / next buttons -->
+    <button id="checkBtn" onclick="checkConjugation()" style="width:100%;padding:.88rem;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:600;cursor:pointer;margin-bottom:10px;">Check answers</button>
+    <button id="nextBtn" onclick="nextVerb()" style="display:none;width:100%;padding:.85rem;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--muted);font-family:inherit;font-size:.88rem;cursor:pointer;">Next verb →</button>
+
+    <!-- progress -->
+    <div style="text-align:center;margin-top:1rem;font-size:.78rem;color:var(--dim);" id="conjProgress"></div>
   </div>
 </div>
 
@@ -273,7 +312,10 @@ async function boot(){
   if(tok){document.getElementById('tokenInput').value=tok;document.getElementById('tokenOk').style.display='';}
   try{
     const res=await fetch(RAW_URL+'?t='+Date.now());
-    if(res.ok){const j=await res.json();const tot=Object.values(j).reduce((s,v)=>s+v.length,0);if(tot>0){allData=j;}}
+    if(res.ok){const j=await res.json();
+      if(j.words){allData=j.words;}else{const tot=Object.values(j).reduce((s,v)=>s+v.length,0);if(tot>0)allData=j;}
+      if(j.verbs){verbList=j.verbs;}
+    }
   }catch(e){}
   renderHome();
 }
@@ -336,7 +378,36 @@ const XLSX=(()=>{
         const vm=/<v>([^<]*)<\/v>/.exec(inn);if(vm){val=iS?(ss[parseInt(vm[1])]||''):decode(vm[1]);}else{const tm=/<t[^>]*>([^<]*)<\/t>/.exec(inn);if(tm)val=decode(tm[1]);}cells[a.c]=val;}rd[ri]=cells;}
     const maxR=Object.keys(rd).length?Math.max(...Object.keys(rd).map(Number))+1:0,rows=[];
     for(let r=0;r<maxR;r++){const row=rd[r]||{};rows.push([row[0]||'',row[1]||'']);}
-    return{rows,merges};
+
+    // Parse sheet 2 if it exists
+    let sheet2=null;
+    const sheetNames=[...wbXml.matchAll(/<sheet[^>]+name="([^"]+)"[^>]+r:id="([^"]+)"/g)].map(m=>({name:m[1],rid:m[2]}));
+    if(sheetNames.length>1){
+      const rid2=sheetNames[1].rid;
+      const rm2=new RegExp('Id="'+rid2+'"[^>]+Target="([^"]+)"').exec(rx);
+      if(rm2){
+        const ws2=txt('xl/'+rm2[1]);
+        if(ws2){
+          const rd2={};const rr2=/<row[^>]+r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g;let rm3;
+          while((rm3=rr2.exec(ws2))!==null){
+            const ri=parseInt(rm3[1])-1,cells={};
+            const cr2=/<c r="([A-Z]+\d+)"([^>]*)>([\s\S]*?)<\/c>/g;let cm2;
+            while((cm2=cr2.exec(rm3[2]))!==null){
+              const a2=pa(cm2[1]);if(!a2)continue;
+              const iS2=cm2[2].includes('t="s"'),inn2=cm2[3];let val2='';
+              const vm2=/<v>([^<]*)<\/v>/.exec(inn2);
+              if(vm2){val2=iS2?(ss[parseInt(vm2[1])]||''):decode(vm2[1]);}
+              else{const tm2=/<t[^>]*>([^<]*)<\/t>/.exec(inn2);if(tm2)val2=decode(tm2[1]);}
+              cells[a2.c]=val2;
+            }
+            rd2[ri]=cells;
+          }
+          const maxR2=Object.keys(rd2).length?Math.max(...Object.keys(rd2).map(Number))+1:0;
+          sheet2=[];for(let r=0;r<maxR2;r++){const row=rd2[r]||{};sheet2.push([row[0]||'',row[1]||'']);}
+        }
+      }
+    }
+    return{rows,merges,sheet2};
   }
   return{read};
 })();
@@ -353,7 +424,8 @@ async function processFile(file){
   const reader=new FileReader();
   reader.onload=async ev=>{
     try{
-      const{rows,merges}=await XLSX.read(ev.target.result);
+      // Parse sheet 1 — words
+      const{rows,merges,sheet2}=await XLSX.read(ev.target.result);
       const mr=new Set();merges.forEach(m=>{if(m.sc===0&&m.ec>=1)mr.add(m.sr);});
       const parsed={};let cur=null;
       rows.forEach((row,ri)=>{
@@ -363,17 +435,55 @@ async function processFile(file){
         else if(a&&b){if(!cur){cur='General';parsed[cur]=[];}parsed[cur].push({en:a,nl:b});}
       });
       const total=Object.values(parsed).reduce((s,v)=>s+v.length,0);
-      if(!total){showToast('No words found — check your file format');return;}
+
+      // Parse sheet 2 — verbs
+      // Format: header row (Dutch | English), then conjugation rows (pronoun | form), repeat
+      // We detect a verb header by checking if col B contains a space or starts uppercase (English meaning)
+      // vs conjugation rows where col B is a single lowercase word
+      const verbs=[];
+      if(sheet2&&sheet2.length){
+        // First pass: find all verb header row indices
+        // A header row is one where col B looks like an English meaning
+        // (contains space, or starts with capital, or is "to ...")
+        const isHeader=(a,b)=>{
+          if(!a||!b)return false;
+          return b.includes(' ')||b[0]===b[0].toUpperCase()&&b[0]!==b[0].toLowerCase()||b.toLowerCase().startsWith('to ');
+        };
+        let i=0;
+        while(i<sheet2.length){
+          const row=sheet2[i];
+          const a=(row[0]||'').toString().trim(),b=(row[1]||'').toString().trim();
+          if(!a&&!b){i++;continue;}
+          if(isHeader(a,b)){
+            const verb={nl:a,en:b,conjugations:[]};
+            i++;
+            while(i<sheet2.length){
+              const r2=sheet2[i];
+              const p=(r2[0]||'').toString().trim(),f=(r2[1]||'').toString().trim();
+              if(!p&&!f){i++;break;}
+              if(isHeader(p,f))break; // next verb starts
+              if(p&&f)verb.conjugations.push({pronoun:p,form:f});
+              i++;
+            }
+            if(verb.conjugations.length)verbs.push(verb);
+          } else { i++; }
+        }
+      }
+
+      if(!total&&!verbs.length){showToast('No data found — check your file format');return;}
+
+      const combined={words:parsed,verbs};
       const prog=document.getElementById('uploadProg');
-      prog.textContent='⏳ Saving '+total+' words to GitHub…';prog.style.color='var(--muted)';prog.style.display='block';prog.classList.add('show');console.log('uploading',total,'words, token len:',token.length);
+      prog.textContent='⏳ Saving to GitHub…';prog.style.color='var(--muted)';prog.style.display='block';prog.classList.add('show');
       let sha='';
       try{const r=await fetch(API_URL,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});if(r.ok){const j=await r.json();sha=j.sha||'';}}catch(e){}
-      const body={message:'Update words.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(parsed,null,2))))};
+      const body={message:'Update words.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))))};
       if(sha)body.sha=sha;
       const res=await fetch(API_URL,{method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
       if(res.ok){
-        allData=parsed;prog.textContent='✓ Saved! '+total+' words in '+Object.keys(parsed).length+' categories — works on all your devices now.';
-        prog.style.color='var(--teal)';renderHome();showToast('✓ Words saved to GitHub!');
+        allData=parsed;verbList=verbs;
+        prog.textContent='✓ Saved! '+total+' words & '+verbs.length+' verbs.';
+        prog.style.color='var(--teal)';renderHome();showToast('✓ Saved to GitHub!');
         setTimeout(()=>{prog.classList.remove('show');prog.style.color='';},5000);
       }else{
         prog.classList.remove('show');
@@ -417,8 +527,9 @@ function navTo(tab){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(tab+'-screen').classList.add('active');
   document.getElementById('mainNav').style.display=(tab==='game'||tab==='score')?'none':'';
-  ['home','settings'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('active',t===tab);});
+  ['home','conjugate','settings'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('active',t===tab);});
   window.scrollTo(0,0);
+  if(tab==='conjugate') initConjugate();
 }
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -428,6 +539,74 @@ document.addEventListener('keydown',e=>{
   if(e.key===' '||e.key==='Enter'){e.preventDefault();flipCard();}
   if(flipped){if(e.key==='ArrowRight'||e.key==='1')answer(true);if(e.key==='ArrowLeft'||e.key==='2')answer(false);if(e.key==='ArrowDown')answer(null);}
 });
+
+// ═══════════════════════════════════
+// CONJUGATE
+// ═══════════════════════════════════
+let verbList = [], currentVerbIdx = 0, verbOrder = [];
+
+function initConjugate() {
+  if (!verbList.length) {
+    document.getElementById('conj-empty').style.display = '';
+    document.getElementById('conj-main').style.display = 'none';
+    return;
+  }
+  document.getElementById('conj-empty').style.display = 'none';
+  document.getElementById('conj-main').style.display = '';
+  verbOrder = shuffle([...Array(verbList.length).keys()]);
+  currentVerbIdx = 0;
+  showVerb();
+}
+
+function showVerb() {
+  const verb = verbList[verbOrder[currentVerbIdx]];
+  document.getElementById('conjVerb').textContent = verb.nl;
+  document.getElementById('conjHint').textContent = verb.en;
+  document.getElementById('conjHint').style.display = 'none';
+  document.getElementById('hintBtn').style.display = '';
+  document.getElementById('checkBtn').style.display = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('conjProgress').textContent = (currentVerbIdx+1) + ' / ' + verbOrder.length;
+
+  const rows = document.getElementById('conjRows');
+  rows.innerHTML = verb.conjugations.map((c, i) => `
+    <div class="conj-row">
+      <div class="conj-pronoun">${esc(c.pronoun)}</div>
+      <input class="conj-input" id="ci-${i}" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="…">
+      <div class="conj-answer" id="ca-${i}">${esc(c.form)}</div>
+    </div>`).join('');
+}
+
+function showHint() {
+  document.getElementById('conjHint').style.display = '';
+  document.getElementById('hintBtn').style.display = 'none';
+}
+
+function checkConjugation() {
+  const verb = verbList[verbOrder[currentVerbIdx]];
+  verb.conjugations.forEach((c, i) => {
+    const inp = document.getElementById('ci-'+i);
+    const ans = document.getElementById('ca-'+i);
+    const val = inp.value.trim().toLowerCase();
+    const correct = c.form.trim().toLowerCase();
+    inp.classList.remove('correct','wrong');
+    inp.classList.add(val === correct ? 'correct' : 'wrong');
+    inp.disabled = true;
+    ans.classList.add('show');
+  });
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').style.display = '';
+}
+
+function nextVerb() {
+  currentVerbIdx++;
+  if (currentVerbIdx >= verbOrder.length) {
+    verbOrder = shuffle([...Array(verbList.length).keys()]);
+    currentVerbIdx = 0;
+  }
+  showVerb();
+}
+
 boot();
 </script>
 </body>
