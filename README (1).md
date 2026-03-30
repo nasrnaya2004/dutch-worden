@@ -39,7 +39,7 @@ Go to https://github.com and sign up. It's free.
 3. Under "Source", select **Deploy from a branch**
 4. Under "Branch", select **main** and click **Save**
 5. Wait 1–2 minutes, then your app is live at:
-   `https://YOUR-USERNAME.github.io/dutch-woorden`
+   `https://YOUR-USERNAME.github.io/dutch-worden`
 
 ### Step 5 — Add to iPhone Home Screen
 1. Open Safari on your iPhone
