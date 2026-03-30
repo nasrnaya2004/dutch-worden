@@ -16,10 +16,10 @@
 <meta name="apple-mobile-web-app-title" content="Dutch Woorden">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="apple-touch-startup-image" href="icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 
@@ -39,7 +39,7 @@
   --rose:#e07b7b;
 }
 
-body{font-family:'Outfit',sans-serif;background:var(--night);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;
+body{font-family:'Outfit','Helvetica Neue',Arial,sans-serif;background:var(--night);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -50,7 +50,7 @@ body{font-family:'Outfit',sans-serif;background:var(--night);color:var(--text);m
   padding:1.6rem 1.5rem 0;
   display:flex;justify-content:space-between;align-items:center;
 }
-.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:-.01em;}
+.logo{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:400;letter-spacing:-.01em;}
 .logo em{color:var(--gold);font-style:italic}
 .nav-tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:3px;}
 .nav-tab{padding:6px 16px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;}
@@ -272,6 +272,102 @@ body{font-family:'Outfit',sans-serif;background:var(--night);color:var(--text);m
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border2);color:var(--text);padding:.6rem 1.3rem;border-radius:10px;font-size:.82rem;transition:transform .3s ease;pointer-events:none;white-space:nowrap;z-index:999;}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
+<script>
+// Self-contained XLSX parser — no external dependencies needed
+const XLSX=(()=>{
+'use strict';
+function str(u){return new TextDecoder().decode(u);}
+async function unzip(ab){
+  const u=new Uint8Array(ab);
+  const files={};let i=0;
+  while(i<u.length-4){
+    if(u[i]===0x50&&u[i+1]===0x4B&&u[i+2]===0x03&&u[i+3]===0x04){
+      const comp=(u[i+8]|(u[i+9]<<8));
+      const csize=(u[i+18]|(u[i+19]<<8)|(u[i+20]<<16)|(u[i+21]<<24));
+      const nlen=(u[i+26]|(u[i+27]<<8));
+      const elen=(u[i+28]|(u[i+29]<<8));
+      const name=str(u.slice(i+30,i+30+nlen));
+      const data=u.slice(i+30+nlen+elen,i+30+nlen+elen+csize);
+      if(comp===0){files[name]=data;}
+      else if(comp===8){
+        try{
+          const ds=new DecompressionStream('deflate-raw');
+          const w=ds.writable.getWriter();w.write(data);w.close();
+          const chunks=[];const r=ds.readable.getReader();
+          while(true){const{done,value}=await r.read();if(done)break;chunks.push(value);}
+          const tot=chunks.reduce((s,c)=>s+c.length,0);
+          const out=new Uint8Array(tot);let off=0;
+          for(const c of chunks){out.set(c,off);off+=c.length;}
+          files[name]=out;
+        }catch(e){files[name]=data;}
+      }
+      i+=30+nlen+elen+csize;
+    }else{i++;}
+  }
+  return files;
+}
+function decode(s){return s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");}
+function parseAddr(a){
+  const m=a.match(/^([A-Z]+)(\d+)$/);if(!m)return null;
+  let c=0;for(let i=0;i<m[1].length;i++)c=c*26+m[1].charCodeAt(i)-64;
+  return{r:parseInt(m[2])-1,c:c-1};
+}
+async function read(ab){
+  const files=await unzip(ab);
+  // shared strings
+  const ssXml=files['xl/sharedStrings.xml']?str(files['xl/sharedStrings.xml']):'';
+  const ss=[];
+  if(ssXml){
+    const re=/<si>([\s\S]*?)<\/si>/g;let m;
+    while((m=re.exec(ssXml))!==null){
+      const texts=[];const tr=/<t[^>]*>([^<]*)<\/t>/g;let tm;
+      while((tm=tr.exec(m[1]))!==null)texts.push(tm[1]);
+      ss.push(decode(texts.join('')));
+    }
+  }
+  // find sheet path
+  const wbXml=files['xl/workbook.xml']?str(files['xl/workbook.xml']):'';
+  const sheetM=wbXml.match(/<sheet[^>]+r:id="([^"]+)"/);
+  const rid=sheetM?sheetM[1]:'rId1';
+  const relsXml=files['xl/_rels/workbook.xml.rels']?str(files['xl/_rels/workbook.xml.rels']):'';
+  const relM=new RegExp('Id="'+rid+'"[^>]+Target="([^"]+)"').exec(relsXml);
+  const sheetPath='xl/'+(relM?relM[1]:'worksheets/sheet1.xml');
+  const wsXml=files[sheetPath]?str(files[sheetPath]):'';
+  // merged cells
+  const merges=[];
+  const mr=/<mergeCell ref="([^"]+)"/g;let mm;
+  while((mm=mr.exec(wsXml))!==null){
+    const pts=mm[1].split(':');
+    const a=parseAddr(pts[0]),b=parseAddr(pts[1]||pts[0]);
+    if(a&&b)merges.push({sr:a.r,er:b.r,sc:a.c,ec:b.c});
+  }
+  // cells
+  const rowData={};
+  const rowRe=/<row[^>]+r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g;let rowM;
+  while((rowM=rowRe.exec(wsXml))!==null){
+    const ri=parseInt(rowM[1])-1;
+    const cells={};
+    const cRe=/<c r="([A-Z]+\d+)"([^>]*)>([\s\S]*?)<\/c>/g;let cM;
+    while((cM=cRe.exec(rowM[2]))!==null){
+      const addr=parseAddr(cM[1]);if(!addr)continue;
+      const isStr=cM[2].includes('t="s"');
+      const inner=cM[3];
+      let val='';
+      const vm=/<v>([^<]*)<\/v>/.exec(inner);
+      if(vm){val=isStr?(ss[parseInt(vm[1])]||''):decode(vm[1]);}
+      else{const tm=/<t[^>]*>([^<]*)<\/t>/.exec(inner);if(tm)val=decode(tm[1]);}
+      cells[addr.c]=val;
+    }
+    rowData[ri]=cells;
+  }
+  const maxR=Math.max(0,...Object.keys(rowData).map(Number))+1;
+  const rows=[];
+  for(let r=0;r<maxR;r++){const row=rowData[r]||{};rows.push([row[0]||'',row[1]||'']);}
+  return{rows,merges};
+}
+return{read};
+})();
+</script>
 </head>
 <body>
 
@@ -502,16 +598,13 @@ function handleFile(e){ processFile(e.target.files[0]); }
 function processFile(file){
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = ev => {
+  reader.onload = async ev => {
     try{
-      const wb = XLSX.read(new Uint8Array(ev.target.result), {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      const {rows, merges} = await XLSX.read(ev.target.result);
 
-      // find merged rows (category titles)
-      const merges = ws['!merges'] || [];
+      // find merged rows (category titles — merged across col A and B)
       const mergedRows = new Set();
-      merges.forEach(m => { if(m.s.c===0 && m.e.c>=1) mergedRows.add(m.s.r); });
+      merges.forEach(m => { if(m.sc===0 && m.ec>=1) mergedRows.add(m.sr); });
 
       const parsed = {};
       let curCat = null;
@@ -521,7 +614,7 @@ function processFile(file){
         const b = (row[1]||'').toString().trim();
         if(!a && !b) return;
 
-        // category row = merged, OR b is empty and a has text
+        // category row = merged across A+B, OR b is empty and a has text
         if(mergedRows.has(ri) || (!b && a)){
           curCat = a;
           if(!parsed[curCat]) parsed[curCat] = [];
@@ -542,6 +635,7 @@ function processFile(file){
       renderFileBlock();
       showToast('✓ Saved '+total+' words in '+Object.keys(parsed).length+' categories');
     }catch(err){
+      console.error(err);
       showToast('Could not read file — is it a valid .xlsx?');
     }
   };
