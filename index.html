@@ -17,7 +17,6 @@
   --gold:#e8c87a;--gold2:#c49a3c;--teal:#5ec4b0;--rose:#e07b7b;
 }
 body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--night);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
-.serif{font-family:Georgia,'Times New Roman',serif;}
 
 /* NAV */
 .nav{width:100%;max-width:560px;padding:1.6rem 1.5rem 0;display:flex;justify-content:space-between;align-items:center;}
@@ -35,32 +34,38 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 .word-pill{display:inline-flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:4px 14px;font-size:.77rem;color:var(--muted);margin-bottom:1.5rem;}
 .word-pill b{color:var(--gold);font-weight:600}
 .sec-label{font-size:.68rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;}
-.shuffle-tile{width:100%;background:linear-gradient(135deg,#1b2b3a,#182a22);border:1px solid rgba(94,196,176,.22);border-radius:18px;padding:1.2rem 1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;transition:transform .2s,border-color .2s;}
+.shuffle-tile{width:100%;background:linear-gradient(135deg,#1b2b3a,#182a22);border:1px solid rgba(94,196,176,.22);border-radius:18px;padding:1.2rem 1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
 .shuffle-tile:active{transform:scale(.98)}
 .shuffle-tile h3{font-family:Georgia,serif;font-size:1.15rem;font-weight:400;color:var(--teal);}
 .shuffle-tile p{font-size:.8rem;color:var(--muted);margin-top:3px}
 .shuffle-tile .arr{font-size:1.3rem;color:var(--teal);opacity:.6}
 .cat-list{display:flex;flex-direction:column;gap:9px;}
-.cat-tile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.95rem 1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:transform .18s,border-color .18s,background .18s;}
+.cat-tile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.95rem 1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
 .cat-tile:active{transform:scale(.99)}
-.cat-tile-name{font-family:Georgia,serif;font-size:1rem;font-weight:400;}
+.cat-tile-name{font-family:Georgia,serif;font-size:1rem;}
 .cat-tile-count{background:var(--raised);border:1px solid var(--border);border-radius:999px;padding:2px 11px;font-size:.73rem;color:var(--muted);}
 .no-data-msg{text-align:center;padding:3rem 1rem;}
 .no-data-msg h3{font-family:Georgia,serif;font-size:1.3rem;font-weight:400;margin-bottom:.5rem;}
-.no-data-msg p{font-size:.85rem;color:var(--muted);line-height:1.6}
-.go-settings-btn{margin-top:1.2rem;display:inline-block;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;padding:.75rem 1.6rem;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;}
+.no-data-msg p{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:.5rem;}
+.go-settings-btn{margin-top:1rem;display:inline-block;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;padding:.75rem 1.6rem;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;}
+
+/* LOADING */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;gap:1rem;}
+.spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-wrap p{font-size:.85rem;color:var(--muted);}
 
 /* GAME */
 .game-topbar{display:flex;align-items:center;gap:10px;margin-bottom:1.4rem;}
-.back-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:7px 13px;font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0;}
-.game-cat-name{font-family:Georgia,serif;font-size:1.05rem;font-weight:400;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.back-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:7px 13px;font-size:.82rem;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.game-cat-name{font-family:Georgia,serif;font-size:1.05rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .dir-indicator{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.78rem;color:var(--muted);margin-bottom:1.25rem;justify-content:center;}
 .dir-indicator b{color:var(--gold);font-weight:500}
 .prog-row{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.5rem;}
 .prog-track{height:3px;background:var(--card);border-radius:2px;margin-bottom:1.4rem;overflow:hidden;}
 .prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;}
 
-/* CARD FLIP */
+/* CARD */
 .card-scene{perspective:1200px;height:260px;margin-bottom:1.2rem;cursor:pointer;}
 .card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);}
 .card-inner.flipped{transform:rotateY(180deg)}
@@ -69,13 +74,13 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 .card-back{background:var(--raised);border:1px solid rgba(232,200,122,.28);transform:rotateY(180deg);}
 .card-lang{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.9rem;}
 .card-back .card-lang{color:var(--gold2)}
-.card-word{font-family:Georgia,serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:400;line-height:1.2;}
+.card-word{font-family:Georgia,serif;font-size:clamp(1.8rem,7vw,2.8rem);line-height:1.2;}
 .card-back .card-word{color:var(--gold)}
 .tap-hint{margin-top:1rem;font-size:.73rem;color:var(--dim);opacity:0;transition:opacity .4s;}
 .tap-hint.show{opacity:1}
 .ans-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;opacity:.28;pointer-events:none;transition:opacity .25s;}
 .ans-row.live{opacity:1;pointer-events:auto}
-.ans-btn{padding:.82rem;border-radius:14px;border:1.5px solid;font-family:inherit;font-size:.88rem;font-weight:500;cursor:pointer;transition:transform .12s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.ans-btn{padding:.82rem;border-radius:14px;border:1.5px solid;font-family:inherit;font-size:.88rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
 .ans-btn:active{transform:scale(.97)}
 .btn-wrong{background:rgba(224,123,123,.09);border-color:rgba(224,123,123,.32);color:var(--rose)}
 .btn-right{background:rgba(94,196,176,.09);border-color:rgba(94,196,176,.32);color:var(--teal)}
@@ -84,7 +89,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 /* SCORE */
 #score-screen{text-align:center;}
 .score-emoji{font-size:3rem;margin-bottom:.9rem}
-.score-pct{font-family:Georgia,serif;font-size:5rem;font-weight:400;line-height:1;margin-bottom:.2rem;}
+.score-pct{font-family:Georgia,serif;font-size:5rem;line-height:1;margin-bottom:.2rem;}
 .great{color:var(--teal)}.ok{color:var(--gold)}.low{color:var(--rose)}
 .score-sub{font-size:.88rem;color:var(--muted);margin-bottom:.4rem;}
 .score-detail{font-size:.8rem;color:var(--dim);margin-bottom:2.5rem;}
@@ -102,33 +107,40 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 .setting-label{font-size:.9rem;font-weight:500;margin-bottom:2px;}
 .setting-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
 .radio-group{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
-.radio-opt{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.83rem;color:var(--muted);padding:6px 10px;border-radius:9px;border:1px solid var(--border);background:var(--raised);transition:all .18s;white-space:nowrap;}
+.radio-opt{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.83rem;color:var(--muted);padding:6px 10px;border-radius:9px;border:1px solid var(--border);background:var(--raised);white-space:nowrap;}
 .radio-opt.selected{border-color:rgba(232,200,122,.5);color:var(--gold);background:rgba(232,200,122,.07);}
 .radio-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--dim);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .radio-opt.selected .radio-dot{border-color:var(--gold);}
 .radio-dot-fill{width:7px;height:7px;border-radius:50%;background:var(--gold);display:none;}
 .radio-opt.selected .radio-dot-fill{display:block;}
-.upload-area{background:var(--card);border:2px dashed rgba(232,200,122,.28);border-radius:16px;padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:background .2s,border-color .2s;}
+
+/* Upload area */
+.upload-area{background:var(--card);border:2px dashed rgba(232,200,122,.28);border-radius:16px;padding:2rem 1.5rem;text-align:center;cursor:pointer;}
 .upload-area:active{background:rgba(232,200,122,.05);}
 .upload-area input{display:none}
 .upload-icon-wrap{width:48px;height:48px;background:rgba(232,200,122,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.3rem;}
 .upload-area h3{font-size:.95rem;font-weight:500;color:var(--gold);margin-bottom:.3rem;}
 .upload-area p{font-size:.78rem;color:var(--muted);}
-.file-loaded{background:var(--card);border:1px solid rgba(94,196,176,.2);border-radius:16px;padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:10px;}
-.file-loaded-info{display:flex;align-items:center;gap:10px;}
-.file-icon{font-size:1.3rem;}
-.file-name{font-size:.88rem;font-weight:500;color:var(--teal);}
-.file-meta{font-size:.75rem;color:var(--muted);margin-top:2px;}
-.replace-btn{background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--muted);padding:5px 12px;font-size:.75rem;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* JSON output box */
+.json-box-wrap{margin-top:1rem;}
+.json-box-label{font-size:.78rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5;}
+.json-box-label b{color:var(--gold);}
+.json-steps{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:.75rem;font-size:.8rem;color:var(--muted);line-height:1.8;}
+.json-steps b{color:var(--text);display:block;margin-bottom:.3rem;font-size:.82rem;}
+.json-steps code{color:var(--teal);font-family:monospace;font-size:.78rem;}
+.json-textarea{width:100%;height:120px;background:var(--raised);border:1px solid var(--border2);border-radius:10px;padding:.75rem;color:var(--teal);font-family:monospace;font-size:.72rem;resize:none;outline:none;}
+.copy-btn{width:100%;margin-top:.5rem;padding:.75rem;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;}
+.copy-btn:active{opacity:.85}
+
 .format-guide{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;font-size:.8rem;color:var(--muted);line-height:1.7;margin-top:10px;}
 .format-guide strong{color:var(--text);}
 .fmt-table{width:100%;margin-top:.6rem;border-collapse:collapse;}
 .fmt-table td{padding:4px 8px;border:1px solid var(--border);font-size:.77rem;}
 .cell-cat{background:rgba(232,200,122,.08);color:var(--gold);font-weight:500;text-align:center;font-style:italic;}
-.cell-en{background:rgba(255,255,255,.04);color:var(--text);}
-.cell-nl{background:rgba(94,196,176,.07);color:var(--teal);}
+.cell-en{color:var(--text);}
+.cell-nl{color:var(--teal);}
 
-/* TOAST */
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border2);color:var(--text);padding:.6rem 1.3rem;border-radius:10px;font-size:.82rem;transition:transform .3s ease;pointer-events:none;white-space:nowrap;z-index:999;}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -145,10 +157,14 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 
 <!-- HOME -->
 <div class="screen active" id="home-screen">
-  <div id="nd">
+  <div id="loadingState" class="loading-wrap">
+    <div class="spinner"></div>
+    <p>Loading your words…</p>
+  </div>
+  <div id="nd" style="display:none">
     <div class="no-data-msg">
       <h3>No words yet</h3>
-      <p>Go to Settings to upload your Excel file.</p>
+      <p>Go to Settings, upload your Excel file, then follow the steps to save your words to GitHub.</p>
       <button class="go-settings-btn" onclick="navTo('settings')">Go to Settings →</button>
     </div>
   </div>
@@ -171,8 +187,8 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
     <div class="game-cat-name" id="gameCatName">All words</div>
   </div>
   <div class="dir-indicator">
-    <b id="dirFrom">English</b><span style="color:var(--gold);margin:0 4px">→</span><b id="dirTo">Dutch</b>
-    <span style="font-size:.7rem;margin-left:4px;color:var(--dim)">(set in Settings)</span>
+    <b id="dirFrom">English</b><span style="color:var(--gold);margin:0 6px">→</span><b id="dirTo">Dutch</b>
+    <span style="font-size:.7rem;margin-left:6px;color:var(--dim)">(set in Settings)</span>
   </div>
   <div class="prog-row">
     <span id="cardNum">1 / 1</span>
@@ -213,13 +229,15 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 
 <!-- SETTINGS -->
 <div class="screen" id="settings-screen">
+
+  <!-- Direction -->
   <div class="settings-section">
     <div class="settings-section-title">Quiz direction</div>
     <div class="setting-card">
       <div class="setting-row">
         <div>
-          <div class="setting-label">Which side to show first?</div>
-          <div class="setting-desc">What appears on the front of the card. Flip to reveal the answer.</div>
+          <div class="setting-label">Which side first?</div>
+          <div class="setting-desc">What shows on the front of the card.</div>
         </div>
         <div class="radio-group">
           <div class="radio-opt selected" id="opt-en-nl" onclick="setDirection('en-nl')">
@@ -233,244 +251,239 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
     </div>
   </div>
 
+  <!-- Update words -->
   <div class="settings-section">
-    <div class="settings-section-title">Excel file</div>
-    <div id="uploadBlock">
-      <div class="upload-area" id="dropZone" onclick="document.getElementById('fileIn').click()">
-        <input type="file" id="fileIn" accept=".xlsx,.xls" onchange="handleFile(event)">
-        <div class="upload-icon-wrap">📂</div>
-        <h3>Upload your .xlsx file</h3>
-        <p>Tap to choose your file</p>
-      </div>
+    <div class="settings-section-title">Update your words</div>
+
+    <div class="upload-area" id="dropZone" onclick="document.getElementById('fileIn').click()">
+      <input type="file" id="fileIn" accept=".xlsx,.xls" onchange="handleFile(event)">
+      <div class="upload-icon-wrap">📂</div>
+      <h3>Upload your .xlsx file</h3>
+      <p>Converts it to a format GitHub can store</p>
     </div>
-    <div id="fileLoadedBlock" style="display:none">
-      <div class="file-loaded">
-        <div class="file-loaded-info">
-          <div class="file-icon">📗</div>
-          <div>
-            <div class="file-name" id="fileName">—</div>
-            <div class="file-meta" id="fileMeta">—</div>
-          </div>
-        </div>
-        <button class="replace-btn" onclick="document.getElementById('fileIn2').click()">Replace</button>
-        <input type="file" id="fileIn2" accept=".xlsx,.xls" style="display:none" onchange="handleFile(event)">
+
+    <!-- JSON output — shown after parsing -->
+    <div class="json-box-wrap" id="jsonBoxWrap" style="display:none">
+      <div class="json-steps">
+        <b>✓ Parsed! Now save to GitHub in 3 steps:</b>
+        1. Copy the text below<br>
+        2. Go to <code>github.com/nasrnaya2004/dutch-worden</code><br>
+        3. Click <code>words.json</code> → ✏️ Edit → select all → paste → Commit
       </div>
+      <textarea class="json-textarea" id="jsonOutput" readonly></textarea>
+      <button class="copy-btn" onclick="copyJSON()">Copy to clipboard</button>
     </div>
+
     <div class="format-guide">
-      <strong>Expected Excel format:</strong>
+      <strong>Excel format:</strong>
       <table class="fmt-table">
-        <tr><td class="cell-cat" colspan="2">Greetings &nbsp;← category (merged across both columns)</td></tr>
+        <tr><td class="cell-cat" colspan="2">Greetings ← merged category title</td></tr>
         <tr><td class="cell-en">hello</td><td class="cell-nl">hallo</td></tr>
         <tr><td class="cell-en">goodbye</td><td class="cell-nl">tot ziens</td></tr>
         <tr><td class="cell-cat" colspan="2">Food</td></tr>
         <tr><td class="cell-en">to eat</td><td class="cell-nl">eten</td></tr>
       </table>
-      <div style="margin-top:.6rem;font-size:.74rem">Column A = English · Column B = Dutch</div>
+      <div style="margin-top:.5rem;font-size:.74rem">Column A = English · Column B = Dutch</div>
     </div>
   </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════
+// CONFIG — your GitHub details
+// ═══════════════════════════════════
+const GITHUB_USER = 'nasrnaya2004';
+const GITHUB_REPO = 'dutch-worden';
+const WORDS_URL = 'https://raw.githubusercontent.com/' + GITHUB_USER + '/' + GITHUB_REPO + '/main/words.json';
+
+// ═══════════════════════════════════
 // SELF-CONTAINED XLSX PARSER
-// No external libraries needed — works 100% offline
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════
 const XLSX = (() => {
-  function decode(s) {
-    return s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+  function decode(s){ return s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'"); }
+  function parseAddr(a){
+    const m=a.match(/^([A-Z]+)(\d+)$/); if(!m) return null;
+    let c=0; for(let i=0;i<m[1].length;i++) c=c*26+m[1].charCodeAt(i)-64;
+    return{r:parseInt(m[2])-1, c:c-1};
   }
-  function parseAddr(a) {
-    const m = a.match(/^([A-Z]+)(\d+)$/);
-    if (!m) return null;
-    let c = 0;
-    for (let i = 0; i < m[1].length; i++) c = c * 26 + m[1].charCodeAt(i) - 64;
-    return { r: parseInt(m[2]) - 1, c: c - 1 };
-  }
-  async function unzip(ab) {
-    const u = new Uint8Array(ab);
-    const files = {};
-    let i = 0;
-    const dec = new TextDecoder();
-    while (i < u.length - 4) {
-      if (u[i]===0x50 && u[i+1]===0x4B && u[i+2]===0x03 && u[i+3]===0x04) {
-        const comp = (u[i+8] | (u[i+9]<<8));
-        const csize = (u[i+18]|(u[i+19]<<8)|(u[i+20]<<16)|(u[i+21]<<24))>>>0;
-        const nlen = (u[i+26]|(u[i+27]<<8));
-        const elen = (u[i+28]|(u[i+29]<<8));
-        const name = dec.decode(u.slice(i+30, i+30+nlen));
-        const data = u.slice(i+30+nlen+elen, i+30+nlen+elen+csize);
-        if (comp === 0) {
-          files[name] = data;
-        } else if (comp === 8) {
-          try {
-            const ds = new DecompressionStream('deflate-raw');
-            const w = ds.writable.getWriter();
-            w.write(data); w.close();
-            const chunks = []; const r = ds.readable.getReader();
-            while (true) { const {done,value} = await r.read(); if (done) break; chunks.push(value); }
-            const total = chunks.reduce((s,c)=>s+c.length,0);
-            const out = new Uint8Array(total); let off = 0;
-            for (const c of chunks) { out.set(c,off); off+=c.length; }
-            files[name] = out;
-          } catch(e) { files[name] = data; }
+  async function unzip(ab){
+    const u=new Uint8Array(ab), files={}, dec=new TextDecoder(); let i=0;
+    while(i<u.length-4){
+      if(u[i]===0x50&&u[i+1]===0x4B&&u[i+2]===0x03&&u[i+3]===0x04){
+        const comp=(u[i+8]|(u[i+9]<<8));
+        const csize=(u[i+18]|(u[i+19]<<8)|(u[i+20]<<16)|(u[i+21]<<24))>>>0;
+        const nlen=(u[i+26]|(u[i+27]<<8)), elen=(u[i+28]|(u[i+29]<<8));
+        const name=dec.decode(u.slice(i+30,i+30+nlen));
+        const data=u.slice(i+30+nlen+elen,i+30+nlen+elen+csize);
+        if(comp===0){ files[name]=data; }
+        else if(comp===8){
+          try{
+            const ds=new DecompressionStream('deflate-raw');
+            const w=ds.writable.getWriter(); w.write(data); w.close();
+            const chunks=[]; const r=ds.readable.getReader();
+            while(true){const{done,value}=await r.read();if(done)break;chunks.push(value);}
+            const total=chunks.reduce((s,c)=>s+c.length,0);
+            const out=new Uint8Array(total); let off=0;
+            for(const c of chunks){out.set(c,off);off+=c.length;}
+            files[name]=out;
+          }catch(e){files[name]=data;}
         }
-        i += 30 + nlen + elen + csize;
+        i+=30+nlen+elen+csize;
       } else { i++; }
     }
     return files;
   }
-  async function read(ab) {
-    const dec = new TextDecoder();
-    const files = await unzip(ab);
-    const txt = k => files[k] ? dec.decode(files[k]) : '';
-
-    // Shared strings
-    const ssXml = txt('xl/sharedStrings.xml');
-    const ss = [];
-    if (ssXml) {
-      const re = /<si>([\s\S]*?)<\/si>/g; let m;
-      while ((m = re.exec(ssXml)) !== null) {
-        const parts = []; const tr = /<t[^>]*>([^<]*)<\/t>/g; let tm;
-        while ((tm = tr.exec(m[1])) !== null) parts.push(tm[1]);
+  async function read(ab){
+    const dec=new TextDecoder(), files=await unzip(ab);
+    const txt=k=>files[k]?dec.decode(files[k]):'';
+    const ssXml=txt('xl/sharedStrings.xml'); const ss=[];
+    if(ssXml){
+      const re=/<si>([\s\S]*?)<\/si>/g; let m;
+      while((m=re.exec(ssXml))!==null){
+        const parts=[]; const tr=/<t[^>]*>([^<]*)<\/t>/g; let tm;
+        while((tm=tr.exec(m[1]))!==null) parts.push(tm[1]);
         ss.push(decode(parts.join('')));
       }
     }
-
-    // Find sheet path
-    const wbXml = txt('xl/workbook.xml');
-    const sheetM = wbXml.match(/<sheet[^>]+r:id="([^"]+)"/);
-    const rid = sheetM ? sheetM[1] : 'rId1';
-    const relsXml = txt('xl/_rels/workbook.xml.rels');
-    const relM = new RegExp('Id="' + rid + '"[^>]+Target="([^"]+)"').exec(relsXml);
-    const sheetPath = 'xl/' + (relM ? relM[1] : 'worksheets/sheet1.xml');
-    const wsXml = txt(sheetPath);
-
-    // Merged cells
-    const merges = [];
-    const mr = /<mergeCell ref="([^"]+)"/g; let mm;
-    while ((mm = mr.exec(wsXml)) !== null) {
-      const pts = mm[1].split(':');
-      const a = parseAddr(pts[0]), b = parseAddr(pts[1] || pts[0]);
-      if (a && b) merges.push({ sr: a.r, er: b.r, sc: a.c, ec: b.c });
+    const wbXml=txt('xl/workbook.xml');
+    const sheetM=wbXml.match(/<sheet[^>]+r:id="([^"]+)"/);
+    const rid=sheetM?sheetM[1]:'rId1';
+    const relsXml=txt('xl/_rels/workbook.xml.rels');
+    const relM=new RegExp('Id="'+rid+'"[^>]+Target="([^"]+)"').exec(relsXml);
+    const sheetPath='xl/'+(relM?relM[1]:'worksheets/sheet1.xml');
+    const wsXml=txt(sheetPath);
+    const merges=[]; const mr=/<mergeCell ref="([^"]+)"/g; let mm;
+    while((mm=mr.exec(wsXml))!==null){
+      const pts=mm[1].split(':');
+      const a=parseAddr(pts[0]),b=parseAddr(pts[1]||pts[0]);
+      if(a&&b) merges.push({sr:a.r,er:b.r,sc:a.c,ec:b.c});
     }
-
-    // Cells
-    const rowData = {};
-    const rowRe = /<row[^>]+r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g; let rowM;
-    while ((rowM = rowRe.exec(wsXml)) !== null) {
-      const ri = parseInt(rowM[1]) - 1;
-      const cells = {};
-      const cRe = /<c r="([A-Z]+\d+)"([^>]*)>([\s\S]*?)<\/c>/g; let cM;
-      while ((cM = cRe.exec(rowM[2])) !== null) {
-        const addr = parseAddr(cM[1]); if (!addr) continue;
-        const isStr = cM[2].includes('t="s"');
-        const inner = cM[3];
-        let val = '';
-        const vm = /<v>([^<]*)<\/v>/.exec(inner);
-        if (vm) { val = isStr ? (ss[parseInt(vm[1])] || '') : decode(vm[1]); }
-        else { const tm = /<t[^>]*>([^<]*)<\/t>/.exec(inner); if (tm) val = decode(tm[1]); }
-        cells[addr.c] = val;
+    const rowData={};
+    const rowRe=/<row[^>]+r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g; let rowM;
+    while((rowM=rowRe.exec(wsXml))!==null){
+      const ri=parseInt(rowM[1])-1; const cells={};
+      const cRe=/<c r="([A-Z]+\d+)"([^>]*)>([\s\S]*?)<\/c>/g; let cM;
+      while((cM=cRe.exec(rowM[2]))!==null){
+        const addr=parseAddr(cM[1]); if(!addr) continue;
+        const isStr=cM[2].includes('t="s"'); const inner=cM[3]; let val='';
+        const vm=/<v>([^<]*)<\/v>/.exec(inner);
+        if(vm){ val=isStr?(ss[parseInt(vm[1])]||''):decode(vm[1]); }
+        else{ const tm=/<t[^>]*>([^<]*)<\/t>/.exec(inner); if(tm) val=decode(tm[1]); }
+        cells[addr.c]=val;
       }
-      rowData[ri] = cells;
+      rowData[ri]=cells;
     }
-
-    const maxR = Object.keys(rowData).length ? Math.max(...Object.keys(rowData).map(Number)) + 1 : 0;
-    const rows = [];
-    for (let r = 0; r < maxR; r++) {
-      const row = rowData[r] || {};
-      rows.push([row[0]||'', row[1]||'']);
-    }
-    return { rows, merges };
+    const maxR=Object.keys(rowData).length?Math.max(...Object.keys(rowData).map(Number))+1:0;
+    const rows=[];
+    for(let r=0;r<maxR;r++){const row=rowData[r]||{};rows.push([row[0]||'',row[1]||'']);}
+    return{rows,merges};
   }
-  return { read };
+  return{read};
 })();
 
-// ═══════════════════════════════════════════
-// APP STATE
-// ═══════════════════════════════════════════
-let allData = {}, deck = [], current = 0, correct = 0, wrong = 0;
-let flipped = false, direction = 'en-nl', activeCat = '', loadedFileName = '';
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+let allData={}, deck=[], current=0, correct=0, wrong=0;
+let flipped=false, direction='en-nl', activeCat='';
+let parsedJSON = '';
 
-function boot() {
-  try {
-    const s = localStorage.getItem('dw_settings');
-    if (s) { const p = JSON.parse(s); direction = p.direction||'en-nl'; loadedFileName = p.fileName||''; }
-    const w = localStorage.getItem('dw_words');
-    if (w) allData = JSON.parse(w);
-  } catch(e) {}
+// ═══════════════════════════════════
+// BOOT — fetch words.json from GitHub
+// ═══════════════════════════════════
+async function boot(){
+  // restore direction setting
+  try{ const s=localStorage.getItem('dw_dir'); if(s) direction=s; }catch(e){}
   applyDirectionUI();
-  renderHome();
-  renderFileBlock();
+
+  // fetch words from GitHub (works from any device, any launch mode)
+  try{
+    const res = await fetch(WORDS_URL + '?t=' + Date.now()); // cache-bust
+    if(res.ok){
+      allData = await res.json();
+      showHomeData();
+    } else {
+      showHomeEmpty();
+    }
+  } catch(e){
+    showHomeEmpty();
+  }
 }
 
-function saveSettings() { localStorage.setItem('dw_settings', JSON.stringify({direction, fileName:loadedFileName})); }
-function saveWords() { localStorage.setItem('dw_words', JSON.stringify(allData)); }
-
-// ═══════════════════════════════════════════
-// NAV
-// ═══════════════════════════════════════════
-function navTo(tab) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(tab+'-screen').classList.add('active');
-  document.getElementById('mainNav').style.display = (tab==='game'||tab==='score') ? 'none' : '';
-  ['home','settings'].forEach(t => {
-    const el = document.getElementById('tab-'+t);
-    if (el) el.classList.toggle('active', t===tab);
-  });
-  window.scrollTo(0,0);
+function showHomeData(){
+  document.getElementById('loadingState').style.display='none';
+  const cats=Object.keys(allData);
+  const total=cats.reduce((s,c)=>s+allData[c].length,0);
+  if(cats.length===0 || total===0){ showHomeEmpty(); return; }
+  document.getElementById('nd').style.display='none';
+  document.getElementById('hd').style.display='';
+  document.getElementById('totalCount').textContent=total;
+  document.getElementById('catCount').textContent=cats.length;
+  applyDirectionUI();
+  document.getElementById('catList').innerHTML=cats.map(cat=>
+    `<div class="cat-tile" onclick='startGame(${JSON.stringify(cat)})'>
+      <div class="cat-tile-name">${esc(cat)}</div>
+      <div class="cat-tile-count">${allData[cat].length}</div>
+    </div>`).join('');
 }
 
-// ═══════════════════════════════════════════
+function showHomeEmpty(){
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('nd').style.display='';
+  document.getElementById('hd').style.display='none';
+}
+
+// ═══════════════════════════════════
 // DIRECTION
-// ═══════════════════════════════════════════
-function setDirection(d) {
-  direction = d;
+// ═══════════════════════════════════
+function setDirection(d){
+  direction=d;
+  try{ localStorage.setItem('dw_dir',d); }catch(e){}
   applyDirectionUI();
-  saveSettings();
 }
-function applyDirectionUI() {
-  ['en-nl','nl-en'].forEach(d => document.getElementById('opt-'+d).classList.toggle('selected', direction===d));
-  const lbl = direction==='en-nl' ? 'English shown → guess Dutch' : 'Dutch shown → guess English';
-  const el = document.getElementById('shuffleDesc'); if (el) el.textContent = lbl;
-  document.getElementById('dirFrom').textContent = direction==='en-nl' ? 'English' : 'Dutch';
-  document.getElementById('dirTo').textContent   = direction==='en-nl' ? 'Dutch'   : 'English';
+function applyDirectionUI(){
+  ['en-nl','nl-en'].forEach(d=>document.getElementById('opt-'+d).classList.toggle('selected',direction===d));
+  const lbl=direction==='en-nl'?'English shown → guess Dutch':'Dutch shown → guess English';
+  const el=document.getElementById('shuffleDesc'); if(el) el.textContent=lbl;
+  document.getElementById('dirFrom').textContent=direction==='en-nl'?'English':'Dutch';
+  document.getElementById('dirTo').textContent=direction==='en-nl'?'Dutch':'English';
 }
 
-// ═══════════════════════════════════════════
-// FILE HANDLING
-// ═══════════════════════════════════════════
-function handleFile(e) { if (e.target.files[0]) processFile(e.target.files[0]); }
+// ═══════════════════════════════════
+// FILE → JSON
+// ═══════════════════════════════════
+function handleFile(e){ if(e.target.files[0]) processFile(e.target.files[0]); }
 
-function processFile(file) {
-  const reader = new FileReader();
-  reader.onload = async ev => {
-    try {
-      const {rows, merges} = await XLSX.read(ev.target.result);
-      const mergedRows = new Set();
-      merges.forEach(m => { if (m.sc===0 && m.ec>=1) mergedRows.add(m.sr); });
-
-      const parsed = {}; let curCat = null;
-      rows.forEach((row, ri) => {
-        const a = (row[0]||'').toString().trim();
-        const b = (row[1]||'').toString().trim();
-        if (!a && !b) return;
-        if (mergedRows.has(ri) || (!b && a)) {
-          curCat = a;
-          if (!parsed[curCat]) parsed[curCat] = [];
-        } else if (a && b) {
-          if (!curCat) { curCat='General'; parsed[curCat]=[]; }
-          parsed[curCat].push({en:a, nl:b});
+function processFile(file){
+  const reader=new FileReader();
+  reader.onload=async ev=>{
+    try{
+      const{rows,merges}=await XLSX.read(ev.target.result);
+      const mergedRows=new Set();
+      merges.forEach(m=>{if(m.sc===0&&m.ec>=1)mergedRows.add(m.sr);});
+      const parsed={}; let curCat=null;
+      rows.forEach((row,ri)=>{
+        const a=(row[0]||'').toString().trim();
+        const b=(row[1]||'').toString().trim();
+        if(!a&&!b) return;
+        if(mergedRows.has(ri)||(!b&&a)){
+          curCat=a; if(!parsed[curCat]) parsed[curCat]=[];
+        } else if(a&&b){
+          if(!curCat){curCat='General';parsed[curCat]=[];}
+          parsed[curCat].push({en:a,nl:b});
         }
       });
+      const total=Object.values(parsed).reduce((s,v)=>s+v.length,0);
+      if(total===0){showToast('No words found — check your file format');return;}
 
-      const total = Object.values(parsed).reduce((s,v)=>s+v.length,0);
-      if (total===0) { showToast('No words found — check format'); return; }
-      allData = parsed; loadedFileName = file.name;
-      saveWords(); saveSettings(); renderHome(); renderFileBlock();
-      showToast('✓ Saved '+total+' words in '+Object.keys(parsed).length+' categories');
-    } catch(err) {
+      parsedJSON = JSON.stringify(parsed, null, 2);
+      document.getElementById('jsonOutput').value = parsedJSON;
+      document.getElementById('jsonBoxWrap').style.display='';
+      showToast('✓ Parsed '+total+' words — now follow the 3 steps below');
+    }catch(err){
       console.error(err);
       showToast('Could not read file — is it a valid .xlsx?');
     }
@@ -478,124 +491,94 @@ function processFile(file) {
   reader.readAsArrayBuffer(file);
 }
 
-// ═══════════════════════════════════════════
-// HOME
-// ═══════════════════════════════════════════
-function renderHome() {
-  const cats = Object.keys(allData);
-  const total = cats.reduce((s,c)=>s+allData[c].length,0);
-  if (cats.length===0) {
-    document.getElementById('nd').style.display='';
-    document.getElementById('hd').style.display='none';
-    return;
-  }
-  document.getElementById('nd').style.display='none';
-  document.getElementById('hd').style.display='';
-  document.getElementById('totalCount').textContent=total;
-  document.getElementById('catCount').textContent=cats.length;
-  applyDirectionUI();
-  document.getElementById('catList').innerHTML = cats.map(cat =>
-    `<div class="cat-tile" onclick='startGame(${JSON.stringify(cat)})'>
-      <div class="cat-tile-name">${esc(cat)}</div>
-      <div class="cat-tile-count">${allData[cat].length}</div>
-    </div>`).join('');
+function copyJSON(){
+  const ta=document.getElementById('jsonOutput');
+  ta.select();
+  try{
+    navigator.clipboard.writeText(parsedJSON).then(()=>showToast('✓ Copied! Now paste into words.json on GitHub')).catch(()=>{document.execCommand('copy');showToast('✓ Copied!');});
+  }catch(e){document.execCommand('copy');showToast('✓ Copied!');}
 }
 
-function renderFileBlock() {
-  const has = !!loadedFileName;
-  document.getElementById('uploadBlock').style.display = has ? 'none' : '';
-  document.getElementById('fileLoadedBlock').style.display = has ? '' : 'none';
-  if (has) {
-    document.getElementById('fileName').textContent = loadedFileName;
-    const cats = Object.keys(allData);
-    document.getElementById('fileMeta').textContent = cats.reduce((s,c)=>s+allData[c].length,0)+' words · '+cats.length+' categories';
-  }
-}
-
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════
 // GAME
-// ═══════════════════════════════════════════
-function startGame(cat) {
-  activeCat = cat;
-  const src = cat==='__ALL__' ? Object.values(allData).flat() : (allData[cat]||[]);
-  deck = shuffle([...src]);
-  current=0; correct=0; wrong=0; flipped=false;
-  document.getElementById('gameCatName').textContent = cat==='__ALL__' ? 'All words' : cat;
-  navTo('game');
-  showCard();
+// ═══════════════════════════════════
+function startGame(cat){
+  activeCat=cat;
+  const src=cat==='__ALL__'?Object.values(allData).flat():(allData[cat]||[]);
+  deck=shuffle([...src]);
+  current=0;correct=0;wrong=0;flipped=false;
+  document.getElementById('gameCatName').textContent=cat==='__ALL__'?'All words':cat;
+  navTo('game'); showCard();
 }
 
-function showCard() {
-  if (current >= deck.length) { endGame(); return; }
-  flipped = false;
+function showCard(){
+  if(current>=deck.length){endGame();return;}
+  flipped=false;
   document.getElementById('cardInner').classList.remove('flipped');
   document.getElementById('ansRow').classList.remove('live');
-  const w = deck[current];
-  const enF = direction==='en-nl';
-  document.getElementById('frontLang').textContent = enF ? 'ENGLISH' : 'DUTCH';
-  document.getElementById('frontWord').textContent = enF ? w.en : w.nl;
-  document.getElementById('backLang').textContent  = enF ? 'DUTCH'  : 'ENGLISH';
-  document.getElementById('backWord').textContent  = enF ? w.nl : w.en;
-  const tot = deck.length;
-  document.getElementById('cardNum').textContent = (current+1)+' / '+tot;
-  document.getElementById('progFill').style.width = ((current/tot)*100)+'%';
-  document.getElementById('scoreDisp').innerHTML = '✓ '+correct+' &nbsp; ✗ '+wrong;
-  const h = document.getElementById('tapHint');
-  h.classList.remove('show');
+  const w=deck[current]; const enF=direction==='en-nl';
+  document.getElementById('frontLang').textContent=enF?'ENGLISH':'DUTCH';
+  document.getElementById('frontWord').textContent=enF?w.en:w.nl;
+  document.getElementById('backLang').textContent=enF?'DUTCH':'ENGLISH';
+  document.getElementById('backWord').textContent=enF?w.nl:w.en;
+  const tot=deck.length;
+  document.getElementById('cardNum').textContent=(current+1)+' / '+tot;
+  document.getElementById('progFill').style.width=((current/tot)*100)+'%';
+  document.getElementById('scoreDisp').innerHTML='✓ '+correct+' &nbsp; ✗ '+wrong;
+  const h=document.getElementById('tapHint'); h.classList.remove('show');
   setTimeout(()=>h.classList.add('show'),700);
 }
 
-function flipCard() {
-  if (flipped) return;
-  flipped = true;
+function flipCard(){
+  if(flipped) return;
+  flipped=true;
   document.getElementById('tapHint').classList.remove('show');
   document.getElementById('cardInner').classList.add('flipped');
   document.getElementById('ansRow').classList.add('live');
 }
 
-function answer(ok) {
-  if (!flipped) { flipCard(); return; }
-  if (ok===true) correct++;
-  else if (ok===false) wrong++;
+function answer(ok){
+  if(!flipped){flipCard();return;}
+  if(ok===true) correct++;
+  else if(ok===false) wrong++;
   current++; showCard();
 }
 
-function endGame() {
-  const tot = correct+wrong;
-  const pct = tot>0 ? Math.round((correct/tot)*100) : 0;
-  const el = document.getElementById('scorePct');
-  el.textContent = pct+'%';
-  el.className = 'score-pct '+(pct>=80?'great':pct>=50?'ok':'low');
-  document.getElementById('scoreEmoji').textContent = pct>=80?'🎉':pct>=50?'💪':'📚';
-  document.getElementById('scoreDetail').textContent = correct+' correct · '+wrong+' wrong · '+(deck.length-tot)+' skipped';
+function endGame(){
+  const tot=correct+wrong;
+  const pct=tot>0?Math.round((correct/tot)*100):0;
+  const el=document.getElementById('scorePct');
+  el.textContent=pct+'%';
+  el.className='score-pct '+(pct>=80?'great':pct>=50?'ok':'low');
+  document.getElementById('scoreEmoji').textContent=pct>=80?'🎉':pct>=50?'💪':'📚';
+  document.getElementById('scoreDetail').textContent=correct+' correct · '+wrong+' wrong · '+(deck.length-tot)+' skipped';
   navTo('score');
 }
 
-function restart() { startGame(activeCat); }
-function goHome() { navTo('home'); }
+function restart(){ startGame(activeCat); }
+function goHome(){ navTo('home'); }
 
-// ═══════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════
-function shuffle(a) {
-  for (let i=a.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
+// ═══════════════════════════════════
+// NAV & UTILS
+// ═══════════════════════════════════
+function navTo(tab){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(tab+'-screen').classList.add('active');
+  document.getElementById('mainNav').style.display=(tab==='game'||tab==='score')?'none':'';
+  ['home','settings'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('active',t===tab);});
+  window.scrollTo(0,0);
 }
-function esc(s) { return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
 
-// Keyboard shortcuts (desktop)
 document.addEventListener('keydown',e=>{
-  if (!document.getElementById('game-screen').classList.contains('active')) return;
-  if (e.key===' '||e.key==='Enter') { e.preventDefault(); flipCard(); }
-  if (flipped) {
-    if (e.key==='ArrowRight'||e.key==='1') answer(true);
-    if (e.key==='ArrowLeft'||e.key==='2') answer(false);
-    if (e.key==='ArrowDown') answer(null);
+  if(!document.getElementById('game-screen').classList.contains('active')) return;
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flipCard();}
+  if(flipped){
+    if(e.key==='ArrowRight'||e.key==='1') answer(true);
+    if(e.key==='ArrowLeft'||e.key==='2') answer(false);
+    if(e.key==='ArrowDown') answer(null);
   }
 });
 
