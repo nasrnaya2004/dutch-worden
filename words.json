@@ -1,1 +1,354 @@
-{}
+{
+  "Days of the week": [
+    {
+      "en": "Monday",
+      "nl": "Mandaag"
+    },
+    {
+      "en": "Tuesday",
+      "nl": "Dinsdaag"
+    },
+    {
+      "en": "Wednesday",
+      "nl": "Woensdaag"
+    },
+    {
+      "en": "Thursday",
+      "nl": "Dondersdaag"
+    },
+    {
+      "en": "Friday",
+      "nl": "Vrijdaag"
+    },
+    {
+      "en": "Saturday",
+      "nl": "Zaterdaag"
+    },
+    {
+      "en": "Sunday",
+      "nl": "Zandaag"
+    }
+  ],
+  "Months of the year": [
+    {
+      "en": "January",
+      "nl": "Januari"
+    },
+    {
+      "en": "February",
+      "nl": "Februari"
+    },
+    {
+      "en": "March",
+      "nl": "Maart"
+    },
+    {
+      "en": "April",
+      "nl": "April"
+    },
+    {
+      "en": "May",
+      "nl": "Mei"
+    },
+    {
+      "en": "June",
+      "nl": "Juni"
+    },
+    {
+      "en": "July",
+      "nl": "Juli"
+    },
+    {
+      "en": "August",
+      "nl": "Augustus"
+    },
+    {
+      "en": "September",
+      "nl": "September"
+    },
+    {
+      "en": "October",
+      "nl": "Oktober"
+    },
+    {
+      "en": "November",
+      "nl": "November"
+    },
+    {
+      "en": "December",
+      "nl": "December"
+    }
+  ],
+  "Personal Pronouns": [
+    {
+      "en": "I",
+      "nl": "Ik"
+    },
+    {
+      "en": "You",
+      "nl": "Jij / je"
+    },
+    {
+      "en": "You (formal)",
+      "nl": "U"
+    },
+    {
+      "en": "He",
+      "nl": "Hij"
+    },
+    {
+      "en": "She",
+      "nl": "Zij"
+    },
+    {
+      "en": "It",
+      "nl": "Het"
+    },
+    {
+      "en": "We",
+      "nl": "Wij / We"
+    },
+    {
+      "en": "You ( plural )",
+      "nl": "Jullie"
+    },
+    {
+      "en": "They",
+      "nl": "Zij / Ze"
+    }
+  ],
+  "Possessive Adjectives": [
+    {
+      "en": "My",
+      "nl": "mijn"
+    },
+    {
+      "en": "Your",
+      "nl": "jouw"
+    },
+    {
+      "en": "His",
+      "nl": "zijn"
+    },
+    {
+      "en": "Hers",
+      "nl": "haar"
+    },
+    {
+      "en": "Its",
+      "nl": "zijn/haar"
+    },
+    {
+      "en": "Ours",
+      "nl": "ons/onze"
+    },
+    {
+      "en": "Your ( plural )",
+      "nl": "Jullie"
+    },
+    {
+      "en": "Their",
+      "nl": "hun/ze"
+    }
+  ],
+  "Prepositions": [
+    {
+      "en": "and",
+      "nl": "en"
+    },
+    {
+      "en": "with",
+      "nl": "met"
+    },
+    {
+      "en": "from",
+      "nl": "van/uit"
+    },
+    {
+      "en": "at/in",
+      "nl": "in/op/bij"
+    },
+    {
+      "en": "on",
+      "nl": "op"
+    },
+    {
+      "en": "but",
+      "nl": "maar"
+    },
+    {
+      "en": "or",
+      "nl": "of"
+    },
+    {
+      "en": "if",
+      "nl": "als"
+    },
+    {
+      "en": "to",
+      "nl": "naar"
+    },
+    {
+      "en": "about",
+      "nl": "over"
+    },
+    {
+      "en": "this",
+      "nl": "dit"
+    },
+    {
+      "en": "also",
+      "nl": "ook"
+    },
+    {
+      "en": "that",
+      "nl": "dat"
+    }
+  ],
+  "W-words": [
+    {
+      "en": "what",
+      "nl": "wat"
+    },
+    {
+      "en": "who",
+      "nl": "wie"
+    },
+    {
+      "en": "when",
+      "nl": "wanneer"
+    },
+    {
+      "en": "which",
+      "nl": "welke"
+    },
+    {
+      "en": "where",
+      "nl": "waar"
+    },
+    {
+      "en": "why",
+      "nl": "waaroon"
+    }
+  ],
+  "Time words": [
+    {
+      "en": "when",
+      "nl": "wie"
+    },
+    {
+      "en": "while",
+      "nl": "terwijl"
+    },
+    {
+      "en": "during",
+      "nl": "tijdens"
+    },
+    {
+      "en": "before",
+      "nl": "voordat"
+    },
+    {
+      "en": "after",
+      "nl": "nadat"
+    },
+    {
+      "en": "since",
+      "nl": "omdat"
+    },
+    {
+      "en": "morning",
+      "nl": "morgen"
+    },
+    {
+      "en": "afternoon",
+      "nl": "middag"
+    },
+    {
+      "en": "evening",
+      "nl": "avond"
+    },
+    {
+      "en": "night",
+      "nl": "naght"
+    },
+    {
+      "en": "today",
+      "nl": "vandaag"
+    },
+    {
+      "en": "tomorrow",
+      "nl": "morgen"
+    },
+    {
+      "en": "yesterday",
+      "nl": "gisteren"
+    },
+    {
+      "en": "week",
+      "nl": "week"
+    },
+    {
+      "en": "day",
+      "nl": "daag"
+    },
+    {
+      "en": "month",
+      "nl": "maand"
+    },
+    {
+      "en": "year",
+      "nl": "jaar"
+    }
+  ],
+  "Location words": [
+    {
+      "en": "here",
+      "nl": "hier"
+    },
+    {
+      "en": "there",
+      "nl": "daar"
+    },
+    {
+      "en": "in front of",
+      "nl": "voor"
+    },
+    {
+      "en": "behind",
+      "nl": "achter"
+    },
+    {
+      "en": "above",
+      "nl": "boven"
+    },
+    {
+      "en": "under",
+      "nl": "pnder"
+    },
+    {
+      "en": "through",
+      "nl": "door"
+    },
+    {
+      "en": "between",
+      "nl": "tussen"
+    },
+    {
+      "en": "country",
+      "nl": "land"
+    },
+    {
+      "en": "city",
+      "nl": "stad"
+    },
+    {
+      "en": "adress",
+      "nl": "adres"
+    },
+    {
+      "en": "nationality",
+      "nl": "nationalitet"
+    }
+  ]
+}
