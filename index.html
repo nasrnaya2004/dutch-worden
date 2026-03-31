@@ -197,7 +197,6 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
   </div>
 </div>
 
-
 <!-- CONJUGATE -->
 <div class="screen" id="conjugate-screen">
   <div id="conj-empty" style="display:none">
@@ -219,9 +218,10 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
     <!-- conjugation rows -->
     <div id="conjRows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;"></div>
 
-    <!-- check / next buttons -->
+    <!-- check / next / pick buttons -->
     <button id="checkBtn" onclick="checkConjugation()" style="width:100%;padding:.88rem;background:var(--gold);color:#0f0f13;border:none;border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:600;cursor:pointer;margin-bottom:10px;">Check answers</button>
-    <button id="nextBtn" onclick="nextVerb()" style="display:none;width:100%;padding:.85rem;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--muted);font-family:inherit;font-size:.88rem;cursor:pointer;">Next verb →</button>
+    <button id="nextBtn" onclick="nextVerb()" style="display:none;width:100%;padding:.85rem;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--muted);font-family:inherit;font-size:.88rem;cursor:pointer;margin-bottom:10px;">Next verb →</button>
+    <button onclick="openVerbPicker()" style="width:100%;padding:.75rem;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--dim);font-family:inherit;font-size:.82rem;cursor:pointer;">📋 Choose a verb</button>
 
     <!-- progress -->
     <div style="text-align:center;margin-top:1rem;font-size:.78rem;color:var(--dim);" id="conjProgress"></div>
@@ -291,6 +291,16 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
       <div style="margin-top:.5rem;font-size:.74rem">Column A = English · Column B = Dutch</div>
     </div>
   </div>
+</div>
+
+<!-- Verb picker modal -->
+<div id="verbPickerOverlay" onclick="closeVerbPicker()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;"></div>
+<div id="verbPickerModal" style="display:none;position:fixed;bottom:0;left:0;right:0;max-height:70vh;background:var(--card);border-radius:20px 20px 0 0;border-top:1px solid var(--border2);z-index:101;overflow:hidden;flex-direction:column;">
+  <div style="padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-size:.95rem;font-weight:600;">Choose a verb</div>
+    <button onclick="closeVerbPicker()" style="background:var(--raised);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 12px;font-family:inherit;font-size:.82rem;cursor:pointer;">✕</button>
+  </div>
+  <div id="verbPickerList" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:.75rem;display:flex;flex-direction:column;gap:7px;"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -381,9 +391,7 @@ const XLSX=(()=>{
     const maxR=Object.keys(rd).length?Math.max(...Object.keys(rd).map(Number))+1:0,rows=[];
     for(let r=0;r<maxR;r++){const row=rd[r]||{};rows.push([row[0]||'',row[1]||'']);}
 
-    // Parse sheet 2 if it exists
     let sheet2=null;
-    // Extract all sheet rIds regardless of attribute order
     const sheetRids=[];
     const sheetRe=/<sheet\s[^>]*>/g;let sheetM;
     while((sheetM=sheetRe.exec(wb))!==null){
@@ -421,7 +429,6 @@ const XLSX=(()=>{
 })();
 
 function handleFile(e){
-  console.log('handleFile called', e.target.files);
   if(!e.target.files||!e.target.files[0]){showToast('No file selected');return;}
   showToast('Reading file...');
   processFile(e.target.files[0]);
@@ -432,7 +439,6 @@ async function processFile(file){
   const reader=new FileReader();
   reader.onload=async ev=>{
     try{
-      // Parse sheet 1 — words
       const{rows,merges,sheet2}=await XLSX.read(ev.target.result);
       const mr=new Set();merges.forEach(m=>{if(m.sc===0&&m.ec>=1)mr.add(m.sr);});
       const parsed={};let cur=null;
@@ -444,15 +450,8 @@ async function processFile(file){
       });
       const total=Object.values(parsed).reduce((s,v)=>s+v.length,0);
 
-      // Parse sheet 2 — verbs
-      // Format: header row (Dutch | English), then conjugation rows (pronoun | form), repeat
-      // We detect a verb header by checking if col B contains a space or starts uppercase (English meaning)
-      // vs conjugation rows where col B is a single lowercase word
       const verbs=[];
       if(sheet2&&sheet2.length){
-        // First pass: find all verb header row indices
-        // A header row is one where col B looks like an English meaning
-        // (contains space, or starts with capital, or is "to ...")
         const isHeader=(a,b)=>{
           if(!a||!b)return false;
           return b.includes(' ')||b[0]===b[0].toUpperCase()&&b[0]!==b[0].toLowerCase()||b.toLowerCase().startsWith('to ');
@@ -469,7 +468,7 @@ async function processFile(file){
               const r2=sheet2[i];
               const p=(r2[0]||'').toString().trim(),f=(r2[1]||'').toString().trim();
               if(!p&&!f){i++;break;}
-              if(isHeader(p,f))break; // next verb starts
+              if(isHeader(p,f))break;
               if(p&&f)verb.conjugations.push({pronoun:p,form:f});
               i++;
             }
@@ -483,26 +482,21 @@ async function processFile(file){
       const combined={words:parsed,verbs};
       const prog=document.getElementById('uploadProg');
       prog.textContent='⏳ Saving to GitHub…';prog.style.color='var(--muted)';prog.style.display='block';prog.classList.add('show');
-      // Get SHA and upload in one atomic operation
       const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))));
-      // First get the current SHA
       let sha='';
       try{
         const shaRes=await fetch(API_URL,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
         if(shaRes.ok){const shaJson=await shaRes.json();sha=shaJson.sha||'';}
       }catch(e){}
-      // Build body and PUT immediately
       const body=sha
         ? {message:'Update words.json',content:encoded,sha}
         : {message:'Update words.json',content:encoded};
       const res=await fetch(API_URL,{method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-      // If 409 conflict, retry once with fresh SHA
       if(res.status===409){
         let sha2='';
         try{const r2=await fetch(API_URL,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});if(r2.ok){const j2=await r2.json();sha2=j2.sha||'';}}catch(e){}
         const body2={message:'Update words.json',content:encoded,sha:sha2};
         const res2=await fetch(API_URL,{method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body2)});
-        // use res2 as the final response
         if(res2.ok){allData=parsed;verbList=verbs;prog.textContent='✓ Saved! '+total+' words & '+verbs.length+' verbs.';prog.style.color='var(--teal)';renderHome();showToast('✓ Saved to GitHub!');setTimeout(()=>{prog.classList.remove('show');prog.style.color='';},5000);}
         else{prog.classList.remove('show');const err=await res2.json().catch(()=>({}));showToast('GitHub error: '+(err.message||res2.status));}
         return;
@@ -631,6 +625,30 @@ function nextVerb() {
     verbOrder = shuffle([...Array(verbList.length).keys()]);
     currentVerbIdx = 0;
   }
+  showVerb();
+}
+
+function openVerbPicker() {
+  const list = document.getElementById('verbPickerList');
+  list.innerHTML = verbList.map((v, i) =>
+    `<div onclick="pickVerb(${i})" style="padding:.75rem 1rem;background:var(--raised);border:1px solid var(--border);border-radius:11px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-family:Georgia,serif;font-size:1rem;">${esc(v.nl)}</span>
+      <span style="font-size:.8rem;color:var(--muted);">${esc(v.en)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('verbPickerOverlay').style.display = '';
+  document.getElementById('verbPickerModal').style.display = 'flex';
+}
+
+function closeVerbPicker() {
+  document.getElementById('verbPickerOverlay').style.display = 'none';
+  document.getElementById('verbPickerModal').style.display = 'none';
+}
+
+function pickVerb(i) {
+  closeVerbPicker();
+  currentVerbIdx = verbOrder.indexOf(i);
+  if (currentVerbIdx === -1) { verbOrder.unshift(i); currentVerbIdx = 0; }
   showVerb();
 }
 
