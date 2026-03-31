@@ -2,7 +2,7 @@
   "name": "Dutch Woorden",
   "short_name": "Dutch",
   "description": "Dutch flashcard app to practice vocabulary",
-  "start_url": "/index.html",
+  "start_url": "/dutch-worden/index.html",
   "display": "standalone",
   "background_color": "#0f0f13",
   "theme_color": "#0f0f13",
