@@ -552,7 +552,16 @@ function showCard(){
   const h=document.getElementById('tapHint');h.classList.remove('show');setTimeout(()=>h.classList.add('show'),700);
 }
 function flipCard(){if(flipped)return;flipped=true;document.getElementById('tapHint').classList.remove('show');document.getElementById('cardInner').classList.add('flipped');document.getElementById('ansRow').classList.add('live');}
-function answer(ok){if(!flipped){flipCard();return;}if(ok===true)correct++;else if(ok===false)wrong++;current++;document.getElementById('cardInner').classList.remove('flipped');setTimeout(()=>showCard(),320);}
+function answer(ok){
+  if(!flipped){flipCard();return;}
+  if(ok===true)correct++;else if(ok===false)wrong++;
+  current++;
+  const inner=document.getElementById('cardInner');
+  const scene=document.querySelector('.card-scene');
+  inner.classList.remove('flipped');
+  scene.style.opacity='0';
+  setTimeout(()=>{showCard();scene.style.opacity='1';},350);
+}
 function endGame(){
   const tot=correct+wrong,pct=tot>0?Math.round((correct/tot)*100):0;
   const el=document.getElementById('scorePct');el.textContent=pct+'%';el.className='score-pct '+(pct>=80?'great':pct>=50?'ok':'low');
