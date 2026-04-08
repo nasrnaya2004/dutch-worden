@@ -233,7 +233,15 @@
       },
       {
         "en": "why",
-        "nl": "waaroon"
+        "nl": "waaroom"
+      },
+      {
+        "en": "how",
+        "nl": "hoe"
+      },
+      {
+        "en": "how many",
+        "nl": "hoe veel"
       }
     ],
     "Time words": [
@@ -304,6 +312,14 @@
       {
         "en": "year",
         "nl": "jaar"
+      },
+      {
+        "en": "after tomorrow",
+        "nl": "overmorgen"
+      },
+      {
+        "en": "before yesterday",
+        "nl": "eergisteren"
       }
     ],
     "Location words": [
@@ -400,6 +416,66 @@
       {
         "en": "gray",
         "nl": "grijs"
+      },
+      {
+        "en": "Blond",
+        "nl": "blond"
+      },
+      {
+        "en": "Dark",
+        "nl": "donker"
+      },
+      {
+        "en": "red",
+        "nl": "rood"
+      },
+      {
+        "en": "blue",
+        "nl": "blauw"
+      },
+      {
+        "en": "jellow",
+        "nl": "geel"
+      },
+      {
+        "en": "black",
+        "nl": "zwart"
+      },
+      {
+        "en": "white",
+        "nl": "wit"
+      },
+      {
+        "en": "green",
+        "nl": "groen"
+      },
+      {
+        "en": "pink",
+        "nl": "roze"
+      },
+      {
+        "en": "silver",
+        "nl": "zilver"
+      },
+      {
+        "en": "orange",
+        "nl": "oranje"
+      },
+      {
+        "en": "purple",
+        "nl": "paars"
+      },
+      {
+        "en": "brown",
+        "nl": "bruin"
+      },
+      {
+        "en": "gray",
+        "nl": "grijs"
+      },
+      {
+        "en": "light",
+        "nl": "licht"
       }
     ],
     "People": [
@@ -434,6 +510,42 @@
       {
         "en": "father",
         "nl": "vader / vaders"
+      },
+      {
+        "en": "parent",
+        "nl": "ouder/puders"
+      },
+      {
+        "en": "visitor",
+        "nl": "bezoek / bezoeks"
+      },
+      {
+        "en": "family",
+        "nl": "het gezin / de familie"
+      },
+      {
+        "en": "husband",
+        "nl": "de echtgenoot"
+      },
+      {
+        "en": "wife",
+        "nl": "de echtgenote"
+      },
+      {
+        "en": "son",
+        "nl": "de zoon"
+      },
+      {
+        "en": "daughter",
+        "nl": "de dochter"
+      },
+      {
+        "en": "grandmother",
+        "nl": "de oma"
+      },
+      {
+        "en": "grandfather",
+        "nl": "de opa"
       }
     ],
     "School": [
@@ -476,6 +588,10 @@
       {
         "en": "spot",
         "nl": "plaats"
+      },
+      {
+        "en": "class",
+        "nl": "les"
       }
     ],
     "seaons": [
@@ -510,6 +626,10 @@
       {
         "en": "windy",
         "nl": "winderig"
+      },
+      {
+        "en": "season",
+        "nl": "seizoen"
       }
     ],
     "Food / Drinks": [
@@ -568,6 +688,296 @@
       {
         "en": "chicken",
         "nl": "kip"
+      },
+      {
+        "en": "drink",
+        "nl": "drinkt"
+      }
+    ],
+    "House": [
+      {
+        "en": "the house",
+        "nl": "het huis"
+      },
+      {
+        "en": "the table",
+        "nl": "de tafl"
+      },
+      {
+        "en": "the chair",
+        "nl": "de stoel"
+      },
+      {
+        "en": "the couch",
+        "nl": "de bank"
+      },
+      {
+        "en": "the bed",
+        "nl": "het bed"
+      },
+      {
+        "en": "the pillow",
+        "nl": "het kussen"
+      },
+      {
+        "en": "the mirror",
+        "nl": "de spiegel"
+      },
+      {
+        "en": "the curtains",
+        "nl": "de gordijgnen"
+      },
+      {
+        "en": "the fridge",
+        "nl": "de koelkast"
+      },
+      {
+        "en": "the stove",
+        "nl": "het fornuis"
+      },
+      {
+        "en": "the oven",
+        "nl": "de oven"
+      },
+      {
+        "en": "the pan",
+        "nl": "de pan"
+      },
+      {
+        "en": "the plate",
+        "nl": "het bord"
+      },
+      {
+        "en": "washing machine",
+        "nl": "de wasmachine"
+      },
+      {
+        "en": "dishwasher",
+        "nl": "de vaatwasser"
+      },
+      {
+        "en": "the room",
+        "nl": "de kamer"
+      },
+      {
+        "en": "the living room",
+        "nl": "de woonkamer"
+      }
+    ],
+    "the bedroom de slaapkammer": [
+      {
+        "en": "the bathroom",
+        "nl": "de badkammer"
+      },
+      {
+        "en": "the kitchen",
+        "nl": "de keuken"
+      },
+      {
+        "en": "garden",
+        "nl": "de tuin"
+      }
+    ],
+    "Adjectives": [
+      {
+        "en": "tasty",
+        "nl": "lekker"
+      },
+      {
+        "en": "Good",
+        "nl": "Goed"
+      },
+      {
+        "en": "Bad",
+        "nl": "Slecht"
+      },
+      {
+        "en": "Big",
+        "nl": "Groot"
+      },
+      {
+        "en": "Small",
+        "nl": "Klein"
+      },
+      {
+        "en": "New",
+        "nl": "Nieuw"
+      },
+      {
+        "en": "Old",
+        "nl": "Oud"
+      },
+      {
+        "en": "Tall / Long",
+        "nl": "Lang"
+      },
+      {
+        "en": "Short",
+        "nl": "Kort"
+      },
+      {
+        "en": "Beautiful",
+        "nl": "Mooi"
+      },
+      {
+        "en": "Ugly",
+        "nl": "Lelijk"
+      },
+      {
+        "en": "Expensive",
+        "nl": "Duur"
+      },
+      {
+        "en": "very",
+        "nl": "Erg"
+      },
+      {
+        "en": "Cheap",
+        "nl": "Goedkoop"
+      },
+      {
+        "en": "Young",
+        "nl": "Jong"
+      },
+      {
+        "en": "Late",
+        "nl": "laat"
+      },
+      {
+        "en": "Early",
+        "nl": "Vroeg"
+      },
+      {
+        "en": "Full",
+        "nl": "Vol"
+      },
+      {
+        "en": "Empty",
+        "nl": "leeg"
+      },
+      {
+        "en": "Favorite",
+        "nl": "favoriete"
+      }
+    ],
+    "Object": [
+      {
+        "en": "picture / foto",
+        "nl": "foto"
+      },
+      {
+        "en": "work",
+        "nl": "werk"
+      },
+      {
+        "en": "Clothes",
+        "nl": "klenen"
+      },
+      {
+        "en": "name",
+        "nl": "naem"
+      }
+    ],
+    "words": [
+      {
+        "en": "more",
+        "nl": "meer"
+      },
+      {
+        "en": "whole",
+        "nl": "heel"
+      },
+      {
+        "en": "other",
+        "nl": "ander"
+      },
+      {
+        "en": "in this moment",
+        "nl": "op dit moment"
+      },
+      {
+        "en": "actually",
+        "nl": "eigenlijk"
+      },
+      {
+        "en": "again",
+        "nl": "weer"
+      }
+    ],
+    "body parts": [
+      {
+        "en": "hair",
+        "nl": "haar"
+      },
+      {
+        "en": "nails",
+        "nl": "nagel"
+      },
+      {
+        "en": "hand",
+        "nl": "hand / handen"
+      },
+      {
+        "en": "feet",
+        "nl": "voeten"
+      },
+      {
+        "en": "arm",
+        "nl": "arm"
+      },
+      {
+        "en": "leg",
+        "nl": "been"
+      }
+    ],
+    "Animals": [
+      {
+        "en": "Dog",
+        "nl": "De hond"
+      },
+      {
+        "en": "Cat",
+        "nl": "de kat"
+      },
+      {
+        "en": "bird",
+        "nl": "vogel"
+      },
+      {
+        "en": "horse",
+        "nl": "paard"
+      },
+      {
+        "en": "rabbit",
+        "nl": "de konijn"
+      },
+      {
+        "en": "the fish",
+        "nl": "de vis"
+      },
+      {
+        "en": "chicken",
+        "nl": "de kip"
+      },
+      {
+        "en": "cow",
+        "nl": "koe"
+      },
+      {
+        "en": "goat",
+        "nl": "geit"
+      },
+      {
+        "en": "sheep",
+        "nl": "schaap"
+      },
+      {
+        "en": "pig",
+        "nl": "varken"
+      },
+      {
+        "en": "duck",
+        "nl": "eend"
       }
     ]
   },
@@ -1229,6 +1639,212 @@
         {
           "pronoun": "zij",
           "form": "leren"
+        }
+      ]
+    },
+    {
+      "nl": "Kijken",
+      "en": "to look",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "kijk"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "kijkt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "kijkt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "kijken"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "kijken"
+        },
+        {
+          "pronoun": "zij",
+          "form": "kijken"
+        }
+      ]
+    },
+    {
+      "nl": "Betalen",
+      "en": "To pay",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "betaal"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "betaalt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "betaalt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "betalen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "betalen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "betalen"
+        }
+      ]
+    },
+    {
+      "nl": "Vertellen",
+      "en": "To tell",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "vertel"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "vertelt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "vertelt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "vertellen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "vertellen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "vertellen"
+        }
+      ]
+    },
+    {
+      "nl": "Moeten",
+      "en": "To must / have to",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "moet"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "moet"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "moet"
+        },
+        {
+          "pronoun": "wij",
+          "form": "moeten"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "moeten"
+        },
+        {
+          "pronoun": "zij",
+          "form": "moeten"
+        }
+      ]
+    },
+    {
+      "nl": "Drinken",
+      "en": "To drink",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "drink"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "drinkt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "drinkt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "drinken"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "drinken"
+        },
+        {
+          "pronoun": "zij",
+          "form": "drinken"
+        }
+      ]
+    },
+    {
+      "nl": "ik",
+      "en": "Vul",
+      "conjugations": [
+        {
+          "pronoun": "jij / je",
+          "form": "vult"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "vult"
+        },
+        {
+          "pronoun": "wij",
+          "form": "vullen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "vullen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "vullen"
+        }
+      ]
+    },
+    {
+      "nl": "Kopen",
+      "en": "To buy",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "kop"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "kopt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "kopt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "kopen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "kopen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "kopen"
         }
       ]
     }
