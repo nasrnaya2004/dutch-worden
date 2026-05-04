@@ -501,33 +501,51 @@ async function processFile(file){
       
       const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))));
       
-      // Always fetch a fresh SHA before writing — add cache-busting
+      // Fetch SHA with no-cache headers to bypass GitHub CDN caching
       async function getFreshSha() {
         try {
-          const r = await fetch(API_URL + '?t=' + Date.now(), {
-            headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' }
+          const r = await fetch(API_URL, {
+            headers: {
+              Authorization: 'token ' + token,
+              Accept: 'application/vnd.github.v3+json',
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
           });
           if (r.ok) { const j = await r.json(); return j.sha || ''; }
         } catch(e) {}
         return '';
       }
-      
-      const sha = await getFreshSha();
-      const body = sha
-        ? { message: 'Update words.json', content: encoded, sha }
-        : { message: 'Update words.json', content: encoded };
-      
-      let res = await fetch(API_URL, { method:'PUT', headers:{ Authorization:'token '+token, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-      
-      // If still a conflict, wait a moment and retry with a freshly fetched SHA
-      if (res.status === 409) {
-        prog.textContent = '⏳ Retrying…';
-        await new Promise(r => setTimeout(r, 1500));
-        const sha2 = await getFreshSha();
-        const body2 = { message: 'Update words.json', content: encoded, sha: sha2 };
-        res = await fetch(API_URL, { method:'PUT', headers:{ Authorization:'token '+token, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body2) });
+
+      async function pushToGitHub(sha) {
+        const body = sha
+          ? { message: 'Update words.json', content: encoded, sha }
+          : { message: 'Update words.json', content: encoded };
+        return fetch(API_URL, {
+          method: 'PUT',
+          headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
       }
-      if(res.ok){
+
+      let sha = await getFreshSha();
+      let res = await pushToGitHub(sha);
+
+      // If 409, GitHub returns the correct SHA in the error — parse and use it
+      if (res.status === 409) {
+        prog.textContent = '⏳ Conflict detected, retrying with correct SHA…';
+        const errJson = await res.json().catch(() => ({}));
+        // The error message contains the expected SHA: "does not match XXXX"
+        const shaMatch = (errJson.message || '').match(/does not match ([0-9a-f]{40})/);
+        if (shaMatch) {
+          sha = shaMatch[1];
+        } else {
+          // Last resort: fetch again
+          await new Promise(r => setTimeout(r, 1000));
+          sha = await getFreshSha();
+        }
+        res = await pushToGitHub(sha);
+      }
         allData=parsed;verbList=verbs;
         prog.textContent='✓ Saved! '+total+' words & '+verbs.length+' verbs.';
         prog.style.color='var(--teal)';renderHome();showToast('✓ Saved to GitHub!');
