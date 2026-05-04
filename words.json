@@ -263,7 +263,7 @@
       },
       {
         "en": "after",
-        "nl": "nadat"
+        "nl": "na / nadat"
       },
       {
         "en": "since",
@@ -320,6 +320,14 @@
       {
         "en": "before yesterday",
         "nl": "eergisteren"
+      },
+      {
+        "en": "alles samen",
+        "nl": "all together"
+      },
+      {
+        "en": "al",
+        "nl": "already"
       }
     ],
     "Location words": [
@@ -370,6 +378,18 @@
       {
         "en": "nationality",
         "nl": "nationalitet"
+      },
+      {
+        "en": "the shop",
+        "nl": "de winkel"
+      },
+      {
+        "en": "left",
+        "nl": "links"
+      },
+      {
+        "en": "right",
+        "nl": "rechts"
       }
     ],
     "Colors": [
@@ -546,6 +566,18 @@
       {
         "en": "grandfather",
         "nl": "de opa"
+      },
+      {
+        "en": "waiter",
+        "nl": "de ober"
+      },
+      {
+        "en": "neighboors",
+        "nl": "buren"
+      },
+      {
+        "en": "hairdresser",
+        "nl": "kapper"
       }
     ],
     "School": [
@@ -567,7 +599,7 @@
       },
       {
         "en": "page",
-        "nl": "bladzijde"
+        "nl": "bladzijde / pagina"
       },
       {
         "en": "break",
@@ -701,7 +733,7 @@
       },
       {
         "en": "the table",
-        "nl": "de tafl"
+        "nl": "de tafel"
       },
       {
         "en": "the chair",
@@ -762,9 +794,11 @@
       {
         "en": "the living room",
         "nl": "de woonkamer"
-      }
-    ],
-    "the bedroom de slaapkammer": [
+      },
+      {
+        "en": "the bedroom",
+        "nl": "de slaapkammer"
+      },
       {
         "en": "the bathroom",
         "nl": "de badkammer"
@@ -776,6 +810,22 @@
       {
         "en": "garden",
         "nl": "de tuin"
+      },
+      {
+        "en": "the television",
+        "nl": "de televesie"
+      },
+      {
+        "en": "the radio",
+        "nl": "de radio"
+      },
+      {
+        "en": "the phone",
+        "nl": "the telefoon"
+      },
+      {
+        "en": "the newspaper",
+        "nl": "de krant"
       }
     ],
     "Adjectives": [
@@ -858,6 +908,26 @@
       {
         "en": "Favorite",
         "nl": "favoriete"
+      },
+      {
+        "en": "nice",
+        "nl": "prettig"
+      },
+      {
+        "en": "super",
+        "nl": "super"
+      },
+      {
+        "en": "hartstikke",
+        "nl": "terrible"
+      },
+      {
+        "en": "quickly",
+        "nl": "gauw"
+      },
+      {
+        "en": "Slowly",
+        "nl": "langzaam"
       }
     ],
     "Object": [
@@ -876,6 +946,10 @@
       {
         "en": "name",
         "nl": "naem"
+      },
+      {
+        "en": "The shop",
+        "nl": "de winkel"
       }
     ],
     "words": [
@@ -902,6 +976,78 @@
       {
         "en": "again",
         "nl": "weer"
+      },
+      {
+        "en": "gefeliciteerd",
+        "nl": "congrats"
+      },
+      {
+        "en": "verjaardag",
+        "nl": "birthday"
+      },
+      {
+        "en": "each other",
+        "nl": "elkaar"
+      },
+      {
+        "en": "same",
+        "nl": "hetzelfde"
+      },
+      {
+        "en": "also",
+        "nl": "ook"
+      },
+      {
+        "en": "together",
+        "nl": "samen"
+      },
+      {
+        "en": "therefore / hence / thats why",
+        "nl": "daroom"
+      },
+      {
+        "en": "because",
+        "nl": "omdat"
+      },
+      {
+        "en": "each other",
+        "nl": "elkaar"
+      },
+      {
+        "en": "ago",
+        "nl": "gelenden"
+      },
+      {
+        "en": "important",
+        "nl": "belang"
+      },
+      {
+        "en": "next",
+        "nl": "volgende"
+      },
+      {
+        "en": "previous",
+        "nl": "vorig"
+      },
+      {
+        "en": "now",
+        "nl": "nu"
+      },
+      {
+        "en": "yet",
+        "nl": "nog"
+      },
+      {
+        "en": "away",
+        "nl": "weg"
+      },
+      {
+        "en": "true",
+        "nl": "waar"
+      },
+      {
+        "en": "false",
+        "nl": "niet waar"
       }
     ],
     "body parts": [
@@ -1584,7 +1730,7 @@
     },
     {
       "nl": "halen",
-      "en": "to catch",
+      "en": "to fetch",
       "conjugations": [
         {
           "pronoun": "ik",
@@ -1824,15 +1970,15 @@
       "conjugations": [
         {
           "pronoun": "ik",
-          "form": "kop"
+          "form": "koop"
         },
         {
           "pronoun": "jij / je",
-          "form": "kopt"
+          "form": "koopt"
         },
         {
           "pronoun": "hij / zij / het",
-          "form": "kopt"
+          "form": "koopt"
         },
         {
           "pronoun": "wij",
@@ -1845,6 +1991,736 @@
         {
           "pronoun": "zij",
           "form": "kopen"
+        }
+      ]
+    },
+    {
+      "nl": "Kennen",
+      "en": "To know  (people / objects )",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "ken"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "kent"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "kent"
+        },
+        {
+          "pronoun": "wij",
+          "form": "kennen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "kennen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "kennen"
+        }
+      ]
+    },
+    {
+      "nl": "Weten",
+      "en": "To know ( information / notion )",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "weet"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "weet"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "weet"
+        },
+        {
+          "pronoun": "wij",
+          "form": "weten"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "weten"
+        },
+        {
+          "pronoun": "zij",
+          "form": "weten"
+        }
+      ]
+    },
+    {
+      "nl": "Bellen",
+      "en": "To call (with a phone)",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "bel"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "belt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "belt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "bellen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "bellen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "bellen"
+        }
+      ]
+    },
+    {
+      "nl": "Trakteren",
+      "en": "To Treet / offer to pay",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "trakteer"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "trakteert"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "trakteert"
+        },
+        {
+          "pronoun": "wij",
+          "form": "traketeren"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "traketeren"
+        },
+        {
+          "pronoun": "zij",
+          "form": "traketeren"
+        }
+      ]
+    },
+    {
+      "nl": "Nemen",
+      "en": "To take",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "neem"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "neemt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "neemt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "nemen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "nemen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "nemen"
+        }
+      ]
+    },
+    {
+      "nl": "Voelen",
+      "en": "To feel",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "voel"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "voelt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "voelt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "voelen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "voelen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "voelen"
+        }
+      ]
+    },
+    {
+      "nl": "ik",
+      "en": "Zit",
+      "conjugations": [
+        {
+          "pronoun": "jij / je",
+          "form": "zit"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "zit"
+        },
+        {
+          "pronoun": "wij",
+          "form": "zitten"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "zitten"
+        },
+        {
+          "pronoun": "zij",
+          "form": "zitten"
+        }
+      ]
+    },
+    {
+      "nl": "werken",
+      "en": "to work",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "werk"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "werkt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "werkt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "werken"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "werken"
+        },
+        {
+          "pronoun": "zij",
+          "form": "weken"
+        }
+      ]
+    },
+    {
+      "nl": "lopen",
+      "en": "to walk",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "loop"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "loopt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "loopt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "lopen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "lopen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "lopen"
+        }
+      ]
+    },
+    {
+      "nl": "kunnen",
+      "en": "To can",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "kan"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "kan"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "kan"
+        },
+        {
+          "pronoun": "wij",
+          "form": "kunnen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "kunnen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "kunnen"
+        }
+      ]
+    },
+    {
+      "nl": "gebruiken",
+      "en": "To use",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "gebruik"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "gebruikt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "gebruikt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "gebruiken"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "gebruiken"
+        },
+        {
+          "pronoun": "zij",
+          "form": "gebruiken"
+        }
+      ]
+    },
+    {
+      "nl": "doen",
+      "en": "to do",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "doe"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "doet"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "doet"
+        },
+        {
+          "pronoun": "wij",
+          "form": "doen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "doen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "doen"
+        }
+      ]
+    },
+    {
+      "nl": "lachen",
+      "en": "to laugh",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "lach"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "lacht"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "lacht"
+        },
+        {
+          "pronoun": "wij",
+          "form": "lachen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "lachen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "lachen"
+        }
+      ]
+    },
+    {
+      "nl": "maken",
+      "en": "to make",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "maak"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "maakt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "maakt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "maken"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "maken"
+        },
+        {
+          "pronoun": "zij",
+          "form": "maken"
+        }
+      ]
+    },
+    {
+      "nl": "zien",
+      "en": "to see",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "zie"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "ziet"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "ziet"
+        },
+        {
+          "pronoun": "wij",
+          "form": "zien"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "zien"
+        },
+        {
+          "pronoun": "zij",
+          "form": "zien"
+        }
+      ]
+    },
+    {
+      "nl": "roepen",
+      "en": "to call ( shout out )",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "roep"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "roept"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "roept"
+        },
+        {
+          "pronoun": "wij",
+          "form": "roepen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "roepen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "roepen"
+        }
+      ]
+    },
+    {
+      "nl": "blijven",
+      "en": "To stay",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "blijf"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "blijft"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "blijft"
+        },
+        {
+          "pronoun": "wij",
+          "form": "blijven"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "blijven"
+        },
+        {
+          "pronoun": "zij",
+          "form": "blijven"
+        }
+      ]
+    },
+    {
+      "nl": "hij / zij / het",
+      "en": "Vindt",
+      "conjugations": [
+        {
+          "pronoun": "wij",
+          "form": "vinden"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "vinden"
+        },
+        {
+          "pronoun": "zij",
+          "form": "vinden"
+        }
+      ]
+    },
+    {
+      "nl": "wensen",
+      "en": "to desire",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "wens"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "wenst"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "wenst"
+        },
+        {
+          "pronoun": "wij",
+          "form": "wensen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "wensen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "wensen"
+        }
+      ]
+    },
+    {
+      "nl": "wandelen",
+      "en": "to go for a walk",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "wandeel"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "wandeelt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "wandeelt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "wandelen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "wandelen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "wandelen"
+        }
+      ]
+    },
+    {
+      "nl": "Dansen",
+      "en": "to dance",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "dans"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "danst"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "danst"
+        },
+        {
+          "pronoun": "wij",
+          "form": "dansen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "dansen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "dansen"
+        }
+      ]
+    },
+    {
+      "nl": "ik",
+      "en": "Voetbal",
+      "conjugations": [
+        {
+          "pronoun": "jij / je",
+          "form": "voetbalt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "voetlbalt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "voetballen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "voetballen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "voetballen"
+        }
+      ]
+    },
+    {
+      "nl": "Slapen",
+      "en": "To sleep",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "slaap"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "slaapt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "slaapt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "slapen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "slapen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "slapen"
+        }
+      ]
+    },
+    {
+      "nl": "Spelen",
+      "en": "To play",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "speel"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "speelt"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "speelt"
+        },
+        {
+          "pronoun": "wij",
+          "form": "spelen"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "spelen"
+        },
+        {
+          "pronoun": "zij",
+          "form": "spelen"
+        }
+      ]
+    },
+    {
+      "nl": "Fietsen",
+      "en": "To ride a bycicle",
+      "conjugations": [
+        {
+          "pronoun": "ik",
+          "form": "fiets"
+        },
+        {
+          "pronoun": "jij / je",
+          "form": "fietst"
+        },
+        {
+          "pronoun": "hij / zij / het",
+          "form": "fiests"
+        },
+        {
+          "pronoun": "wij",
+          "form": "fiesten"
+        },
+        {
+          "pronoun": "jullie",
+          "form": "fiesten"
+        },
+        {
+          "pronoun": "zij",
+          "form": "fietsen"
         }
       ]
     }
