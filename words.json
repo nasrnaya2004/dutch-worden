@@ -322,12 +322,12 @@
         "nl": "eergisteren"
       },
       {
-        "en": "alles samen",
-        "nl": "all together"
+        "en": "all together",
+        "nl": "alles samen"
       },
       {
-        "en": "al",
-        "nl": "already"
+        "en": "already",
+        "nl": "al"
       }
     ],
     "Location words": [
@@ -390,112 +390,6 @@
       {
         "en": "right",
         "nl": "rechts"
-      }
-    ],
-    "Colors": [
-      {
-        "en": "Black",
-        "nl": "zwart"
-      },
-      {
-        "en": "white",
-        "nl": "wit"
-      },
-      {
-        "en": "red",
-        "nl": "rood"
-      },
-      {
-        "en": "blue",
-        "nl": "blauw"
-      },
-      {
-        "en": "green",
-        "nl": "groen"
-      },
-      {
-        "en": "yellow",
-        "nl": "geel"
-      },
-      {
-        "en": "brown",
-        "nl": "bruin"
-      },
-      {
-        "en": "orange",
-        "nl": "oranje"
-      },
-      {
-        "en": "pink",
-        "nl": "roze"
-      },
-      {
-        "en": "purple",
-        "nl": "paars"
-      },
-      {
-        "en": "gray",
-        "nl": "grijs"
-      },
-      {
-        "en": "Blond",
-        "nl": "blond"
-      },
-      {
-        "en": "Dark",
-        "nl": "donker"
-      },
-      {
-        "en": "red",
-        "nl": "rood"
-      },
-      {
-        "en": "blue",
-        "nl": "blauw"
-      },
-      {
-        "en": "jellow",
-        "nl": "geel"
-      },
-      {
-        "en": "black",
-        "nl": "zwart"
-      },
-      {
-        "en": "white",
-        "nl": "wit"
-      },
-      {
-        "en": "green",
-        "nl": "groen"
-      },
-      {
-        "en": "pink",
-        "nl": "roze"
-      },
-      {
-        "en": "silver",
-        "nl": "zilver"
-      },
-      {
-        "en": "orange",
-        "nl": "oranje"
-      },
-      {
-        "en": "purple",
-        "nl": "paars"
-      },
-      {
-        "en": "brown",
-        "nl": "bruin"
-      },
-      {
-        "en": "gray",
-        "nl": "grijs"
-      },
-      {
-        "en": "light",
-        "nl": "licht"
       }
     ],
     "People": [
@@ -1074,6 +968,72 @@
       {
         "en": "leg",
         "nl": "been"
+      }
+    ],
+    "Colors": [
+      {
+        "en": "Black",
+        "nl": "zwart"
+      },
+      {
+        "en": "Blond",
+        "nl": "blond"
+      },
+      {
+        "en": "blue",
+        "nl": "blauw"
+      },
+      {
+        "en": "brown",
+        "nl": "bruin"
+      },
+      {
+        "en": "Dark",
+        "nl": "donker"
+      },
+      {
+        "en": "gray",
+        "nl": "grijs"
+      },
+      {
+        "en": "green",
+        "nl": "groen"
+      },
+      {
+        "en": "jellow",
+        "nl": "geel"
+      },
+      {
+        "en": "light",
+        "nl": "licht"
+      },
+      {
+        "en": "orange",
+        "nl": "oranje"
+      },
+      {
+        "en": "pink",
+        "nl": "roze"
+      },
+      {
+        "en": "purple",
+        "nl": "paars"
+      },
+      {
+        "en": "red",
+        "nl": "rood"
+      },
+      {
+        "en": "silver",
+        "nl": "zilver"
+      },
+      {
+        "en": "white",
+        "nl": "wit"
+      },
+      {
+        "en": "yellow",
+        "nl": "geel"
       }
     ],
     "Animals": [
