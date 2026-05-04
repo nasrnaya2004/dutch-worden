@@ -498,24 +498,34 @@ async function processFile(file){
       const combined={words:parsed,verbs};
       const prog=document.getElementById('uploadProg');
       prog.textContent='⏳ Saving to GitHub…';prog.style.color='var(--muted)';prog.style.display='block';prog.classList.add('show');
+      
       const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))));
-      let sha='';
-      try{
-        const shaRes=await fetch(API_URL,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
-        if(shaRes.ok){const shaJson=await shaRes.json();sha=shaJson.sha||'';}
-      }catch(e){}
-      const body=sha
-        ? {message:'Update words.json',content:encoded,sha}
-        : {message:'Update words.json',content:encoded};
-      const res=await fetch(API_URL,{method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(res.status===409){
-        let sha2='';
-        try{const r2=await fetch(API_URL,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});if(r2.ok){const j2=await r2.json();sha2=j2.sha||'';}}catch(e){}
-        const body2={message:'Update words.json',content:encoded,sha:sha2};
-        const res2=await fetch(API_URL,{method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body2)});
-        if(res2.ok){allData=parsed;verbList=verbs;prog.textContent='✓ Saved! '+total+' words & '+verbs.length+' verbs.';prog.style.color='var(--teal)';renderHome();showToast('✓ Saved to GitHub!');setTimeout(()=>{prog.classList.remove('show');prog.style.color='';},5000);}
-        else{prog.classList.remove('show');const err=await res2.json().catch(()=>({}));showToast('GitHub error: '+(err.message||res2.status));}
-        return;
+      
+      // Always fetch a fresh SHA before writing — add cache-busting
+      async function getFreshSha() {
+        try {
+          const r = await fetch(API_URL + '?t=' + Date.now(), {
+            headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' }
+          });
+          if (r.ok) { const j = await r.json(); return j.sha || ''; }
+        } catch(e) {}
+        return '';
+      }
+      
+      const sha = await getFreshSha();
+      const body = sha
+        ? { message: 'Update words.json', content: encoded, sha }
+        : { message: 'Update words.json', content: encoded };
+      
+      let res = await fetch(API_URL, { method:'PUT', headers:{ Authorization:'token '+token, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+      
+      // If still a conflict, wait a moment and retry with a freshly fetched SHA
+      if (res.status === 409) {
+        prog.textContent = '⏳ Retrying…';
+        await new Promise(r => setTimeout(r, 1500));
+        const sha2 = await getFreshSha();
+        const body2 = { message: 'Update words.json', content: encoded, sha: sha2 };
+        res = await fetch(API_URL, { method:'PUT', headers:{ Authorization:'token '+token, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body2) });
       }
       if(res.ok){
         allData=parsed;verbList=verbs;
