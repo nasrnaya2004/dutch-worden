@@ -449,7 +449,10 @@ function handleFile(e){
   showToast('Reading file...');
   processFile(e.target.files[0]);
 }
+let uploading = false;
 async function processFile(file){
+  if (uploading) { showToast('Already saving — please wait'); return; }
+  uploading = true;
   const token=getToken();
   if(!token){showToast('Add your GitHub token in Settings first');navTo('settings');return;}
   const reader=new FileReader();
@@ -502,14 +505,13 @@ async function processFile(file){
       const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))));
       
       // Fetch SHA with no-cache headers to bypass GitHub CDN caching
-      async function getFreshSha() {
+    async function getFreshSha() {
         try {
-          const r = await fetch(API_URL, {
+          const r = await fetch(API_URL + '?t=' + Date.now(), {
+            cache: 'no-store',
             headers: {
               Authorization: 'token ' + token,
-              Accept: 'application/vnd.github.v3+json',
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
+              Accept: 'application/vnd.github.v3+json'
             }
           });
           if (r.ok) { const j = await r.json(); return j.sha || ''; }
@@ -523,6 +525,7 @@ async function processFile(file){
           : { message: 'Update words.json', content: encoded };
         return fetch(API_URL, {
           method: 'PUT',
+          cache: 'no-store',
           headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
@@ -530,22 +533,19 @@ async function processFile(file){
 
       let sha = await getFreshSha();
       let res = await pushToGitHub(sha);
+      let attempts = 0;
 
-      // If 409, GitHub returns the correct SHA in the error — parse and use it
-      if (res.status === 409) {
-        prog.textContent = '⏳ Conflict detected, retrying with correct SHA…';
+      while (res.status === 409 && attempts < 4) {
+        attempts++;
+        prog.textContent = '⏳ Conflict detected, retrying (' + attempts + ')…';
         const errJson = await res.json().catch(() => ({}));
-        // The error message contains the expected SHA: "does not match XXXX"
         const shaMatch = (errJson.message || '').match(/does not match ([0-9a-f]{40})/);
-        if (shaMatch) {
-          sha = shaMatch[1];
-        } else {
-          // Last resort: fetch again
-          await new Promise(r => setTimeout(r, 1000));
-          sha = await getFreshSha();
-        }
+        sha = shaMatch ? shaMatch[1] : await getFreshSha();
+        await new Promise(r => setTimeout(r, 400 * attempts));
         res = await pushToGitHub(sha);
       }
+
+      if (res.ok) {
         allData=parsed;verbList=verbs;
         prog.textContent='✓ Saved! '+total+' words & '+verbs.length+' verbs.';
         prog.style.color='var(--teal)';renderHome();showToast('✓ Saved to GitHub!');
@@ -557,6 +557,7 @@ async function processFile(file){
         else showToast('GitHub error: '+(err.message||res.status));
       }
     }catch(err){const p=document.getElementById('uploadProg');p.textContent='Error: '+err.message;p.style.color='var(--rose)';p.style.display='block';console.error(err);showToast('Error: '+err.message);}
+    finally { uploading = false; }
   };
   reader.readAsArrayBuffer(file);
 }
