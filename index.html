@@ -449,12 +449,12 @@ function handleFile(e){
   showToast('Reading file...');
   processFile(e.target.files[0]);
 }
-let uploading = false;
+let uploading=false;
 async function processFile(file){
-  if (uploading) { showToast('Already saving — please wait'); return; }
-  uploading = true;
+  if(uploading){showToast('Already saving — please wait');return;}
+  uploading=true;
   const token=getToken();
-  if(!token){showToast('Add your GitHub token in Settings first');navTo('settings');return;}
+  if(!token){uploading=false;showToast('Add your GitHub token in Settings first');navTo('settings');return;}
   const reader=new FileReader();
   reader.onload=async ev=>{
     try{
@@ -496,16 +496,16 @@ async function processFile(file){
         }
       }
 
-      if(!total&&!verbs.length){showToast('No data found — check your file format');return;}
+      if(!total&&!verbs.length){showToast('No data found — check your file format');uploading=false;return;}
 
       const combined={words:parsed,verbs};
       const prog=document.getElementById('uploadProg');
       prog.textContent='⏳ Saving to GitHub…';prog.style.color='var(--muted)';prog.style.display='block';prog.classList.add('show');
-      
+
       const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(combined,null,2))));
-      
-      // Fetch SHA with no-cache headers to bypass GitHub CDN caching
-    async function getFreshSha() {
+
+      // Fetch SHA with no-store to bypass any HTTP caching layers
+      async function getFreshSha() {
         try {
           const r = await fetch(API_URL + '?t=' + Date.now(), {
             cache: 'no-store',
@@ -515,6 +515,7 @@ async function processFile(file){
             }
           });
           if (r.ok) { const j = await r.json(); return j.sha || ''; }
+          if (r.status === 404) return '';
         } catch(e) {}
         return '';
       }
@@ -557,7 +558,7 @@ async function processFile(file){
         else showToast('GitHub error: '+(err.message||res.status));
       }
     }catch(err){const p=document.getElementById('uploadProg');p.textContent='Error: '+err.message;p.style.color='var(--rose)';p.style.display='block';console.error(err);showToast('Error: '+err.message);}
-    finally { uploading = false; }
+    finally { uploading=false; }
   };
   reader.readAsArrayBuffer(file);
 }
