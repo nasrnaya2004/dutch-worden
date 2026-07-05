@@ -588,9 +588,16 @@ function answer(ok){
   current++;
   const inner=document.getElementById('cardInner');
   const scene=document.querySelector('.card-scene');
-  inner.classList.remove('flipped');
+  scene.style.transition='opacity .2s';
   scene.style.opacity='0';
-  setTimeout(()=>{showCard();scene.style.opacity='1';},350);
+  setTimeout(()=>{
+    inner.style.transition='none';
+    inner.classList.remove('flipped');
+    showCard();
+    void inner.offsetHeight;
+    inner.style.transition='';
+    scene.style.opacity='1';
+  },220);
 }
 function endGame(){
   const tot=correct+wrong,pct=tot>0?Math.round((correct/tot)*100):0;
